@@ -5,7 +5,9 @@ import { HfInference } from "@huggingface/inference"
 import { ImageToTextOutput } from "@huggingface/inference";
 
 async function fetchImageAndInfer() {
-        const hf = new HfInference("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")
+        const apiHF = process.env.EXPO_PUBLIC_API_HF;
+        
+        const hf = new HfInference(apiHF)
 
         const imageURL = "https://hips.hearstapps.com/hmg-prod/images/small-dogs-6626cf74dfe17.jpg?crop=0.579xw:0.868xh;0.197xw,0.0337xh&resize=640:*"
         const model = "Salesforce/blip-image-captioning-large"
@@ -25,7 +27,7 @@ async function fetchImageAndInfer() {
 
 export default function HomeScreen() {
   const [result, setResult] = useState<ImageToTextOutput | null>(null);
-
+  
   useEffect(() => {
     fetchImageAndInfer().then((res) => {
       if (res !== null) {
