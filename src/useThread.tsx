@@ -5,7 +5,7 @@ import Account from './components/users/Account'
 import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import { NavigationContainer } from '@react-navigation/native'
-import { HomeNavigator } from './navigator/HomeNavigator'
+import { Navigator } from './navigator/Navigator'
 
 export default function UseThread() {
   const [session, setSession] = useState<Session | null>(null)
@@ -24,7 +24,7 @@ export default function UseThread() {
     <NavigationContainer> 
       {
       session && session.user 
-      ? <HomeNavigator key={session.user.id} session={session}/> 
+      ? <Navigator key={session.user.id} session={session}/> 
       : <Auth />
       }
     </NavigationContainer>

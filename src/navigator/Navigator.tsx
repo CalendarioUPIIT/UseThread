@@ -12,7 +12,7 @@ function AccountWrapper({ route }: { route: any }) {
   return <Account key={session.user.id} session={session} />;
 }
 
-export const HomeNavigator = ({ session }: { session: any }) => {
+export const Navigator = ({ session }: { session: any }) => {
   return (
     <BottomTab.Navigator initialRouteName="Home" screenOptions={{
       headerShown: false,
