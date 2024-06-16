@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../../lib/supabase'
-import { StyleSheet, View, Alert, Pressable, Text,SafeAreaView } from 'react-native'
+import { StyleSheet, View, Alert, Pressable, Text,SafeAreaView, Switch } from 'react-native'
 
 import { Session } from '@supabase/supabase-js'
 import Avatar from './Avatar'
 import { Input } from '@rneui/themed'
+
+import { useColorScheme } from 'nativewind'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Account({ session }: { session: Session }) {
 
@@ -81,9 +84,14 @@ export default function Account({ session }: { session: Session }) {
       setLoading(false)
     }
   }
+
+  const {colorScheme, toggleColorScheme} = useColorScheme()
+  
   return (
 
-    <SafeAreaView>
+    <SafeAreaView className='flex-1 dark:bg-black dark:text-white'>
+      <StatusBar style={colorScheme == "dark" ? "light" : "dark" } />
+
       <View>
         <View className='flex items-center justify-center top-10'>
             <Avatar
@@ -137,6 +145,11 @@ export default function Account({ session }: { session: Session }) {
                 </Pressable>
           </View>
 
+          <View className='flex-row justify-center items-center space-x-2 top-3' >
+            <Text className='dark:text-white'> Cambio de color </Text>
+            <Switch value={colorScheme == "dark"} onChange={toggleColorScheme}/> 
+          </View>
+
     </SafeAreaView>
   )
 }
@@ -160,7 +173,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 50,
     elevation: 3,
-    backgroundColor: 'black',
   },
   text: {
     fontSize: 16,

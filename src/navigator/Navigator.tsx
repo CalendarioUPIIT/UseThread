@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import Account from '../components/users/Account';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import OtraScreen from '../screens/OtraScreen';
+import { useColorScheme } from 'nativewind';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -13,12 +14,23 @@ function AccountWrapper({ route }: { route: any }) {
 }
 
 export const Navigator = ({ session }: { session: any }) => {
+
+  const {colorScheme, toggleColorScheme} = useColorScheme()
+
+  const darkmode = colorScheme === 'dark' ? 'white' : 'black'
   return (
+
     <BottomTab.Navigator initialRouteName="Home" screenOptions={{
       headerShown: false,
-      tabBarActiveTintColor: 'black',
-      tabBarInactiveTintColor: 'gray',
+      tabBarActiveTintColor: darkmode,
+      tabBarInactiveTintColor: darkmode,
+      tabBarStyle: {
+        borderTopWidth: 0,
+        paddingBottom: 5,
+        backgroundColor: colorScheme === 'dark' ? 'black' : 'white',
+    },
     }}>
+      
       <BottomTab.Screen 
           name="Home" 
           component={HomeScreen} 
