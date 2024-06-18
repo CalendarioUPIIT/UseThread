@@ -11,7 +11,6 @@ import { StatusBar } from 'expo-status-bar'
 
 export default function Account({ session }: { session: Session }) {
 
-  console.log(session)
   
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
