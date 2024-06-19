@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { HfInference } from "@huggingface/inference"
 import { ImageToTextOutput } from "@huggingface/inference";
 import { useNavigation } from '@react-navigation/native';
-import CrearModeloScreen from './CrearModeloScreen';
+import CrearModeloScreen from '../Formulario/CrearModeloForm';
 
 
 export default function HomeScreen() {
