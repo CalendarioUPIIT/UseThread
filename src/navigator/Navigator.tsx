@@ -16,11 +16,22 @@ function AccountWrapper({ route }: { route: any }) {
   return <Account key={session.user.id} session={session} />;
 }
 
-function StackNavigator() {
+function HomeWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <HomeScreen key={session.user.id} session={session} />;
+}
+
+function CrearModeloWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <CrearModeloScreen key={session.user.id} session={session} />;
+}
+
+function StackNavigator({ route }: { route: any }) {
+  const { session } = route.params;
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Principal" component={HomeScreen} />
-      <Stack.Screen name="Crear modelo" component={CrearModeloScreen} />
+      <Stack.Screen name="Principal" initialParams={{ session: session }} component={HomeWrapper} />
+      <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
     </Stack.Navigator>
   );
 

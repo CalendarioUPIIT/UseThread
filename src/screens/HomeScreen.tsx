@@ -5,9 +5,10 @@ import { HfInference } from "@huggingface/inference"
 import { ImageToTextOutput } from "@huggingface/inference";
 import { useNavigation } from '@react-navigation/native';
 import CrearModeloScreen from '../Formulario/CrearModeloForm';
+import { Session } from '@supabase/supabase-js'
 
 
-export default function HomeScreen() {
+export default function HomeScreen({ session }: { session: Session }) {
 
   const navigation = useNavigation(); 
 
@@ -16,7 +17,8 @@ export default function HomeScreen() {
       <StatusBar style="auto" />
       <View >
         <Pressable 
-          onPress={() => navigation.navigate('Crear modelo')}>
+            // @ts-ignore
+            onPress={() => navigation.navigate('Crear modelo')}>
           <Text>Crear Modelo  </Text>
         </Pressable>
       </View>
