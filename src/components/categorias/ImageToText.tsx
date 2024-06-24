@@ -5,6 +5,7 @@ import { ImageToTextOutput } from "@huggingface/inference";
 import TakePhoto from '../Utilities/TakePhoto';
 
 type ImageUri = string | null;
+type ImageMime = string | null;
 const apiHF = process.env.EXPO_PUBLIC_API_HF;
 
 async function fetchImageAndInfer(imageUri: ImageUri) {
@@ -34,7 +35,9 @@ async function fetchImageAndInfer(imageUri: ImageUri) {
 
 const ImageToText = () => {
     const [result, setResult] = useState<ImageToTextOutput | null>(null);
+
     const [imageUri, setImageUri] = useState<ImageUri>(null);
+    const [mime, setMime] = useState<ImageMime>(null);
 
     const handleInferClick = () => {
       if (imageUri) {
@@ -49,7 +52,7 @@ const ImageToText = () => {
   return (
     <View>
       <View className='w-full h-auto justify-center items-center'>
-        <TakePhoto onImageTaken={setImageUri} />
+        <TakePhoto onImageTaken={setImageUri}  onImageMime={setMime} />
       </View>
       <View>
             <Button title="Infer" onPress={handleInferClick} disabled={!imageUri}  />

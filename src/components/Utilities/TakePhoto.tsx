@@ -3,12 +3,14 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity
 import * as ImagePicker from 'expo-image-picker'
 
 type ImageUri = string | null;
+type ImageMime = string | null;
 
 interface TakePhotoProps {
   onImageTaken: (uri: ImageUri) => void;
+  onImageMime: (uri: ImageMime) => void;
 }
 
-const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken }) => {
+const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon.png');
@@ -33,13 +35,17 @@ const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken }) => {
     }
 
     const image = result.assets[0];
-    console.log("Camara de TakePhoto.tsx: ", image.uri);
+    console.log("Camara de Background.tsx: ", image.mimeType);
 
     if (!image.uri) {
       throw new Error('No image uri!');
     }
+    if (!image.mimeType) {
+      throw new Error('No image mimeType!');
+    }
     setImageUri(image.uri); 
     onImageTaken(image.uri); 
+    onImageMime(image.mimeType); 
   }
   
   async function AbrirArchivos(
@@ -59,13 +65,17 @@ const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken }) => {
       return
     }
     const image = result.assets[0]
-    console.log("Libreria de TakePhoto.tsx: ", image.uri);
+    console.log("Libreria de Background.tsx: ", image);
 
     if (!image.uri) {
       throw new Error('No image uri!') 
     }
+    if (!image.mimeType) {
+      throw new Error('No image mimeType!');
+    }
     setImageUri(image.uri); 
     onImageTaken(image.uri); 
+    onImageMime(image.mimeType); 
   }
 
   const BorrarFoto = (
@@ -89,7 +99,7 @@ const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken }) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Toma tu imagen cabron !!! </Text>
+            <Text style={styles.modalText}>Toma tu imagen </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>

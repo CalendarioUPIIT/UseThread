@@ -7,6 +7,7 @@ import ImageToImage from '../components/categorias/ImageToImage';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../../lib/supabase'
 import BackgroundModels from '../components/Utilities/BackgroundModels';
+import { useNavigation } from '@react-navigation/native';
 
 type ImageUri = string | null;
 type ImageMime = string | null;
@@ -33,6 +34,9 @@ const CATEGORIAS = [
 ];
 
 const CrearModeloScreen = ({ session }: { session: Session }) => {
+
+    const navigation = useNavigation(); 
+    
     const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
     const [loading, setLoading] = useState(false)
 
@@ -65,6 +69,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
     background: string | null 
     mime: string | null 
   }) {
+
     try {
 
         setLoading(true)
@@ -89,6 +94,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
 
       if (!session?.user) throw new Error('No user on the session!')
 
+        
       const { error } = await supabase
         .from('modelos')
         .insert({ 
@@ -111,7 +117,9 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
         Alert.alert(error.message)
       }
     } finally {
+
       setLoading(false)
+      navigation.goBack()
     }
   }
 
@@ -166,7 +174,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                         className='flex-1 items-center justify-center w-11/12 h-10 bg-slate-300 rounded-lg m-5'
                         disabled={loading} 
                         onPress={() => updateModel({ nombre, descripcion, modelo, selectedComponent, background, mime})} >
-                        <Text > {loading ? 'Loading ...' : 'Update'} </Text>
+                        <Text > {loading ? 'Cargando ...' : 'Publicar'} </Text>
                     </Pressable >
 
                 </>

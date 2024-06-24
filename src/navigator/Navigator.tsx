@@ -34,7 +34,6 @@ function StackNavigator({ route }: { route: any }) {
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
     </Stack.Navigator>
   );
-
 }
 
 export const Navigator = ({ session }: { session: any }) => {

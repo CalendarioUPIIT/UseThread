@@ -99,7 +99,7 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Toma tu imagen cabron !!! </Text>
+            <Text style={styles.modalText}>Toma tu imagen </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>

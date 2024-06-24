@@ -6,22 +6,11 @@ import { ImageToTextOutput } from "@huggingface/inference";
 import { useNavigation } from '@react-navigation/native';
 import CrearModeloScreen from '../Formulario/CrearModeloForm';
 import { Session } from '@supabase/supabase-js'
+import TopTabsHome from '../components/home/TopTabsHome';
 
 
 export default function HomeScreen({ session }: { session: Session }) {
-
-  const navigation = useNavigation(); 
-
   return (
-    <View className='flex-1 bg-white items-center justify-center '>
-      <StatusBar style="auto" />
-      <View >
-        <Pressable 
-            // @ts-ignore
-            onPress={() => navigation.navigate('Crear modelo')}>
-          <Text>Crear Modelo  </Text>
-        </Pressable>
-      </View>
-    </View>
+    <TopTabsHome key={session.user.id} session={session} />
   );
 }
