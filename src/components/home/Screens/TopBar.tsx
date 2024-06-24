@@ -9,7 +9,7 @@ export default function TopBar() {
     return (
         <View className="flex-row items-center px-4 py-3 pt-10">
             <Image
-                source={require('../../../assets/logo.png')}
+                source={require('../../../../assets/logo.png')}
                 style={{ width: 50, height: 50 }}
                 className='mr-2'
             />
@@ -18,7 +18,7 @@ export default function TopBar() {
             <Pressable 
                 // @ts-ignore
                 onPress={() => navigation.navigate('Editar perfil')}>
-                <Ionicons name="menu-sharp" size={35} color={useColorScheme() === "dark" ? "white" : "black"}/>
+                <Ionicons name="menu-sharp" size={35} color={useColorScheme() == "dark" ? "white" : "black"}/>
             </Pressable>
         </View>
     );
