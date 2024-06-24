@@ -98,9 +98,6 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
         accessibilityLabel="Avatar"
         style={[avatarSize, styles.avatar, styles.image]}
       />
-      <View className='absolute top-0 right-2 bg-black rounded-full p-2 '>
-        <Ionicons name="pencil" size={30} color="white" />
-      </View>
     </TouchableOpacity>
   ) : (
     <TouchableOpacity onPress={uploadAvatar}>
@@ -123,6 +120,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: 'hidden',
     maxWidth: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   image: {
     objectFit: 'cover',

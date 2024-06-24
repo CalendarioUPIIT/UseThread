@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../../lib/supabase'
-import { StyleSheet, View, Alert, Pressable, Text,SafeAreaView, Switch } from 'react-native'
+import { StyleSheet, View, Alert, Pressable, Text,SafeAreaView, Switch, Button, Image } from 'react-native'
 
 import { Session } from '@supabase/supabase-js'
 import Avatar from './Avatar'
@@ -8,6 +8,8 @@ import { Input } from '@rneui/themed'
 
 import { useColorScheme } from 'nativewind'
 import { StatusBar } from 'expo-status-bar'
+
+import TopBar from '../screens/TopBar';
 
 export default function Account({ session }: { session: Session }) {
 
@@ -91,10 +93,12 @@ export default function Account({ session }: { session: Session }) {
     <SafeAreaView className='flex-1 dark:bg-black dark:text-white'>
       <StatusBar style={colorScheme == "dark" ? "light" : "dark" } />
 
-      <View>
+      <TopBar />
+
+      <View style={styles.container}>
         <View className='flex items-center justify-center top-10'>
             <Avatar
-              size={200}
+              size={100}
               url={avatarUrl}
               onUpload={(url: string) => {
                 setAvatarUrl(url)
@@ -102,48 +106,13 @@ export default function Account({ session }: { session: Session }) {
               }}
             />
           </View>
+
+          <View style={styles.userInfo}>
+          <Text style={styles.text} className='text-black dark:text-white'>{"Username"}</Text>
+          <Text style={styles.text} className='text-black   dark:text-white'>{session?.user?.email}</Text>
+          <Text style={styles.text} className='text-black  dark:text-white'>{"Descripción"}</Text>
+        </View>
       </View>
-      
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-
-      <Input label="Email" value={session?.user?.email} disabled />
-
-      </View>
-
-      <View style={styles.verticallySpaced}>
-        <Input 
-          selectionColor={'black'}
-          label="Username" 
-          value={username || ''} 
-          onChangeText={(text: string) => setUsername(text)} />
-      </View>
-
-      <View style={styles.verticallySpaced}>
-        <Input 
-          selectionColor={'black'}
-          label="Boleta" 
-          value={website || ''} 
-          onChangeText={(text: string) => setWebsite(text)} />
-      </View>
-
-          <View style={styles.verticallySpaced}>
-                <Pressable 
-                  disabled={loading} 
-                  style={styles.button} 
-                  onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} >
-                  <Text style={styles.text}> {loading ? 'Loading ...' : 'Update'} </Text>
-                  
-                </Pressable>
-          </View>
-
-          <View style={styles.verticallySpaced}>
-                <Pressable 
-                  style={styles.button} 
-                  onPress={() => supabase.auth.signOut()}>
-                  <Text style={styles.text}> Sign Out </Text>
-                </Pressable>
-          </View>
-
           <View className='flex-row justify-center items-center space-x-2 top-3' >
             <Text className='dark:text-white'> Cambio de color </Text>
             <Switch value={colorScheme == "dark"} onChange={toggleColorScheme}/> 
@@ -178,6 +147,14 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+  },
+  userInfo: {
+    flex: 1,
+    marginLeft: 40
   },
 })

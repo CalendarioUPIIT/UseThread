@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View, AppState } from 'react-native'
+import { Alert, StyleSheet, View, AppState, Image,useColorScheme } from 'react-native'
 import { supabase } from '../../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 
@@ -47,33 +47,39 @@ export default function Auth() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+    <View style={styles.container} className="flex-1 dark:bg-black dark:text-white">
+      <Image
+        source={require('../../../assets/logo.png')}
+        style={styles.logo}
+      />
+      <View style={[styles.verticallySpaced, styles.mt20]} className="dark; text-white">
         <Input
           label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+          labelStyle={styles.label}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
           autoCapitalize={'none'}
+          style={useColorScheme() === 'dark' ? null : styles.input}
         />
       </View>
       <View style={styles.verticallySpaced}>
         <Input
           label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          labelStyle={styles.label}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
           placeholder="Password"
           autoCapitalize={'none'}
+          style={styles.input}
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} color="#9747FF" radius={10} />
       </View>
       <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} color="#4A158E" radius={10} />
       </View>
     </View>
   )
@@ -82,7 +88,10 @@ export default function Auth() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 40,
-    padding: 12,
+    padding: 20,
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   verticallySpaced: {
     paddingTop: 4,
@@ -91,5 +100,17 @@ const styles = StyleSheet.create({
   },
   mt20: {
     marginTop: 20,
+    marginBottom: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+  },
+  label: {
+    fontSize: 28,
+  },
+  input: {
+    color: 'white'
   },
 })
