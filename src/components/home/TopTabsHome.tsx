@@ -6,27 +6,42 @@ import { Session } from '@supabase/supabase-js'
 import CrearModeloScreen from '../../Formulario/CrearModeloForm';
 import Feed from './Screens/Feed';
 import Modelos from './Screens/Modelos';
+import ImageToText from '../categorias/ImageToText';
+import ImageToImage from '../categorias/ImageToImage';
+import TextToImage from '../categorias/TextToImage';
 
 const Tab = createMaterialTopTabNavigator()
 const Stack = createNativeStackNavigator()
 
+
 function CrearModeloWrapper({ route }: { route: any }) {
   const { session } = route.params;
-
   return <CrearModeloScreen key={session.user.id} session={session} />;
 }
-
 function FeedWrapper({ route }: { route: any }) {
   const { session } = route.params;
 
   return <Feed key={session.user.id} session={session} />;
 }
 
+
+
 function ModelosWrapper({ route }: { route: any }) {
   const { session } = route.params;
   return <Modelos key={session.user.id} session={session} />;
 }
-
+function ImageToTextWrapper({ route }: { route: any }) {
+  const { session, modelo } = route.params; 
+  return <ImageToText key={session.user.id} session={session} modelo={modelo}/>;
+}
+function ImageToImageWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <ImageToImage key={session.user.id} session={session} />;
+}
+function TextToImageWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <TextToImage key={session.user.id} session={session} />;
+}
 
 function StackNavigatorFeed({ route }: { route: any }) {
   const { session } = route.params;
@@ -48,10 +63,14 @@ function StackNavigatorModelos({ route }: { route: any }) {
       headerShown: false,
     }}>
       <Stack.Screen name="Principal" initialParams={{ session: session }} component={ModelosWrapper} />
-      <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
+      <Stack.Screen name="ImageToText" initialParams={{ session: session }} component={ImageToTextWrapper} />
+      <Stack.Screen name="ImageToImage" initialParams={{ session: session }} component={ImageToImageWrapper} />
+      <Stack.Screen name="TextToImage" initialParams={{ session: session }} component={TextToImageWrapper} />
     </Stack.Navigator>
   )
 }
+
+
 
 const TopTabsHome = ({ session }: { session: Session }) => {
   return (

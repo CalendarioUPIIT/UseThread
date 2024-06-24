@@ -48,13 +48,13 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
     const [descripcion, setDescripcion] = useState('')
     const [modelo, setModelo] = useState('')
 
-    const componentMapping: { [key: string]: JSX.Element } = {
-        ImageToText: <ImageToText />,
-        TextToImage: <TextToImage />,
-        ImageToImage: <ImageToImage />,
-    };
+    // const componentMapping: { [key: string]: JSX.Element } = {
+    //     ImageToText: <ImageToText />,
+    //     TextToImage: <TextToImage />,
+    //     ImageToImage: <ImageToImage />,
+    // };
 
-  async function updateModel({
+  async function createModel({
     nombre,
     descripcion,
     modelo,
@@ -166,14 +166,14 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                     <BackgroundModels onImageTaken={setBackground} onImageMime={setMime}/>
 
 
-                    <Text className=' mt-5 ml-3'>Test:</Text>
+                    {/* <Text className=' mt-5 ml-3'>Test:</Text> */}
 
-                    {componentMapping[selectedComponent]}
+                    {/* {componentMapping[selectedComponent]} */}
 
                     <Pressable
                         className='flex-1 items-center justify-center w-11/12 h-10 bg-slate-300 rounded-lg m-5'
                         disabled={loading} 
-                        onPress={() => updateModel({ nombre, descripcion, modelo, selectedComponent, background, mime})} >
+                        onPress={() => createModel({ nombre, descripcion, modelo, selectedComponent, background, mime})} >
                         <Text > {loading ? 'Cargando ...' : 'Publicar'} </Text>
                     </Pressable >
 

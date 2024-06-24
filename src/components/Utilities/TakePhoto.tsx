@@ -13,7 +13,7 @@ interface TakePhotoProps {
 const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [imageUri, setImageUri] = useState('https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon.png');
+  const [imageUri, setImageUri] = useState('https://i.pinimg.com/originals/9b/8b/bf/9b8bbfb45ebb5d4e2e429e3048d757f9.jpg');
 
   async function AbrirCamara(
     setModalVisible: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; },
@@ -94,7 +94,6 @@ const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime }) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
