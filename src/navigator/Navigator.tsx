@@ -7,6 +7,7 @@ import OtraScreen from '../screens/OtraScreen';
 import { useColorScheme } from 'nativewind';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CrearModeloScreen from '../Formulario/CrearModeloForm';
+import EditProfileScreen from '../components/users/EditProfile';
 
 const BottomTab = createBottomTabNavigator();   
 const Stack = createNativeStackNavigator();   
@@ -26,12 +27,18 @@ function CrearModeloWrapper({ route }: { route: any }) {
   return <CrearModeloScreen key={session.user.id} session={session} />;
 }
 
+function EditProfileWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <EditProfileScreen key={session.user.id} session={session} />;
+}
+
 function StackNavigator({ route }: { route: any }) {
   const { session } = route.params;
   return (
     <Stack.Navigator>
       <Stack.Screen name="Principal" initialParams={{ session: session }} component={HomeWrapper} />
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
+      <Stack.Screen name="Editar perfil" initialParams={{ session: session }} component={EditProfileWrapper} />
     </Stack.Navigator>
   );
 }
