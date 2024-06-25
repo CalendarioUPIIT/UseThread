@@ -34,8 +34,14 @@ function EditProfileWrapper({ route }: { route: any }) {
 
 function StackNavigator({ route }: { route: any }) {
   const { session } = route.params;
+  const { colorScheme, toggleColorScheme } = useColorScheme()
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator 
+    screenOptions={{
+      headerTintColor: colorScheme == "dark" ? "white" : "black",
+      headerStyle: { backgroundColor: colorScheme == "dark" ? "black" : "white" },
+    }}>
       <Stack.Screen name="Principal" initialParams={{ session: session }} component={HomeWrapper} />
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
       <Stack.Screen name="Editar perfil" initialParams={{ session: session }} component={EditProfileWrapper} />

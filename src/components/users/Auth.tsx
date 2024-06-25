@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View, AppState, Image,useColorScheme } from 'react-native'
+import { Alert, StyleSheet, View, AppState, Image} from 'react-native'
 import { supabase } from '../../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
+import { useColorScheme } from 'nativewind'
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -19,6 +20,7 @@ export default function Auth() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const { colorScheme, toggleColorScheme } = useColorScheme()
 
   async function signInWithEmail() {
     setLoading(true)
@@ -47,9 +49,9 @@ export default function Auth() {
   }
 
   return (
-    <View style={styles.container} className="flex-1 dark:bg-black dark:text-white">
+    <View style={styles.container} className="flex-1 dark:bg-black dark:text-whites text-black">
       <Image
-        source={require('../../../assets/logo.png')}
+        source={colorScheme == 'dark' ? require('../../../assets/logo_dark.png') : require('../../../assets/logo_light.png')}
         style={styles.logo}
       />
       <View style={[styles.verticallySpaced, styles.mt20]} className="dark; text-white">
@@ -59,8 +61,9 @@ export default function Auth() {
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
+          placeholderTextColor={colorScheme == 'dark' ? 'soft-whites': 'gray'}
           autoCapitalize={'none'}
-          style={useColorScheme() === 'dark' ? null : styles.input}
+          style={colorScheme == "dark" ? styles.inputdark : styles.inputlight}
         />
       </View>
       <View style={styles.verticallySpaced}>
@@ -72,7 +75,7 @@ export default function Auth() {
           secureTextEntry={true}
           placeholder="Password"
           autoCapitalize={'none'}
-          style={styles.input}
+          style={colorScheme == "dark" ? styles.inputdark : styles.inputlight}
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
@@ -110,7 +113,10 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 28,
   },
-  input: {
-    color: 'white'
+  inputlight: {
+    color: 'black'
+  },
+  inputdark: {
+    color: '#ffffff'
   },
 })

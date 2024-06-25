@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../../lib/supabase'
 import { StyleSheet, View, Alert, Pressable, Text,SafeAreaView, Switch, Button, Image } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Session } from '@supabase/supabase-js'
 import Avatar from './Avatar'
@@ -8,11 +9,11 @@ import { Input } from '@rneui/themed'
 
 import { useColorScheme } from 'nativewind'
 import { StatusBar } from 'expo-status-bar'
+import { useNavigation } from '@react-navigation/native'
 
 import TopBar from '../../components/home/Screens/TopBar';
 
 export default function Account({ session }: { session: Session }) {
-
   
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
@@ -87,6 +88,7 @@ export default function Account({ session }: { session: Session }) {
   }
 
   const {colorScheme, toggleColorScheme} = useColorScheme()
+  const navigation = useNavigation();
   
   return (
 
@@ -95,28 +97,41 @@ export default function Account({ session }: { session: Session }) {
 
       <TopBar />
 
-      <View style={styles.container}>
-        <View className='flex items-center justify-center top-10'>
-            <Avatar
-              size={100}
-              url={avatarUrl}
-              onUpload={(url: string) => {
-                setAvatarUrl(url)
-                updateProfile({ username, website, avatar_url: url })
-              }}
-            />
-          </View>
+      <View className='p-8'>
+        <View style={styles.container}>
+          <View className='flex items-center justify-center'>
+              <Avatar
+                size={100}
+                url={avatarUrl}
+                onUpload={(url: string) => {
+                  setAvatarUrl(url)
+                  updateProfile({ username, website, avatar_url: url })
+                }}
+              />
+            </View>
 
-          <View style={styles.userInfo}>
-          <Text style={styles.text} className='text-black dark:text-white'>{"Username"}</Text>
-          <Text style={styles.text} className='text-black   dark:text-white'>{session?.user?.email}</Text>
-          <Text style={styles.text} className='text-black  dark:text-white'>{"Descripción"}</Text>
+            <View style={styles.userInfo}>
+              <Text style={styles.text} className='text-black dark:text-white font-bold mb-3'>{"Username"}</Text>
+              <Text style={styles.text} className='text-black dark:text-white mb-3'>{session?.user?.email}</Text>
+              <Text style={styles.text} className='text-black dark:text-white mb-3'>{"Descripción"}</Text>
+            </View>
+        </View>
+        <View className='flex-row'>
+          <Pressable
+            onPress={() => navigation.navigate('Editar perfil')} className='p-3'>
+            <Text className='text-black dark:text-white bg-soft-white dark:bg-gray p-1 w-36 rounded-md text-center text-lg'>Editar Perfil</Text>
+          </Pressable>
+          <View className='flex-row justify-center items-center space-x-2 ml-4' >
+              <Text className='text-black dark:text-whites text-lg'> {colorScheme === "dark" ? 'Light Mode' : 'Dark Mode'} </Text>
+              <Switch
+                value={colorScheme === "dark"}
+                onChange={toggleColorScheme}
+                trackColor={{ false: 'white', true: 'white' }}
+                thumbColor={colorScheme === "dark" ? '#282828' : '#e4e4e7'}
+              />
+          </View>
         </View>
       </View>
-          <View className='flex-row justify-center items-center space-x-2 top-3' >
-            <Text className='dark:text-white'> Cambio de color </Text>
-            <Switch value={colorScheme == "dark"} onChange={toggleColorScheme}/> 
-          </View>
 
     </SafeAreaView>
   )
@@ -143,9 +158,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 21,
-    fontWeight: 'bold',
     letterSpacing: 0.25,
   },
   container: {

@@ -89,64 +89,63 @@ export default function Account({ session }: { session: Session }) {
 
     return (
 
-        <SafeAreaView className='flex-1 dark:bg-black dark:text-white'>
+        <SafeAreaView className='flex-1 dark:bg-black dark:text-whites'>
             <StatusBar style={colorScheme == "dark" ? "light" : "dark"} />
 
             <View style={styles.verticallySpaced}>
                 <Pressable
                     disabled={loading}
-                    style={styles.button}
+                    style={[styles.button, styles.btnSave]}
                     onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} >
                     <Text style={styles.text}> {loading ? 'Guardando ...' : 'Guardar'} </Text>
-
                 </Pressable>
             </View>
 
-            <View style={styles.container}>
-                <View className='flex items-center justify-center top-10'>
+            <View style={styles.container} className='flex items-center'>
+                <View className='flex items-center justify-center w-screen m-0 p-0'>
                     <Avatar
-                        size={100}
+                        size={80}
                         url={avatarUrl}
                         onUpload={(url: string) => {
                             setAvatarUrl(url)
                             updateProfile({ username, website, avatar_url: url })
                         }}
                     />
-                    <Text>Editar Foto</Text>
+                    <Text className='m-2 dark:text-purple2 text-purple font-bold text-xl'>Editar Foto</Text>
                 </View>
             </View>
 
-            <View style={styles.verticallySpaced}>
-                <Input
-                    selectionColor={'black'}
-                    label="Username"
-                    value={username || ''}
-                    onChangeText={(text: string) => setUsername(text)} />
+            <View>
+                <View style={[styles.verticallySpaced, styles.mr20]}>
+                    <Input
+                        selectionColor={'black'}
+                        label="Username"
+                        value={username || ''}
+                        placeholder={'Name'}
+                        onChangeText={(text: string) => setUsername(text)} 
+                        />
+                </View>
+
+                <View style={[styles.verticallySpaced, styles.mr20]}>
+                    <Input label="Email" value={session?.user?.email} disabled />
+                </View>
+
+                <View style={[styles.verticallySpaced, styles.mr20]}>
+                    <Input
+                        selectionColor={'black'}
+                        label="Descripcion"
+                        value={website || ''}
+                        placeholder='Descripcion'
+                        onChangeText={(text: string) => setWebsite(text)} />
+                </View>
             </View>
 
-            <View style={[styles.verticallySpaced, styles.mt20]}>
-                <Input label="Email" value={session?.user?.email} disabled />
-            </View>
-
-            <View style={styles.verticallySpaced}>
-                <Input
-                    selectionColor={'black'}
-                    label="Descripcion"
-                    value={website || ''}
-                    onChangeText={(text: string) => setWebsite(text)} />
-            </View>
-
-            <View style={styles.verticallySpaced}>
+            <View style={[styles.verticallySpaced]} className='items-center'>
                 <Pressable
-                    style={styles.button}
+                    style={[styles.button, styles.btnOut]}
                     onPress={() => supabase.auth.signOut()}>
                     <Text style={styles.text}> Sign out </Text>
                 </Pressable>
-            </View>
-
-            <View className='flex-row justify-center items-center space-x-2 top-3' >
-                <Text className='dark:text-white'> {colorScheme == "dark" ? "Dark mode" : "Light mode"} </Text>
-                <Switch value={colorScheme == "dark"} onChange={toggleColorScheme} />
             </View>
 
         </SafeAreaView>
@@ -159,8 +158,8 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         alignSelf: 'stretch',
     },
-    mt20: {
-        marginTop: 40,
+    mr20: {
+        marginHorizontal: 30,
     },
     imagen: {
         borderRadius: 100,
@@ -168,10 +167,24 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
         borderRadius: 50,
         elevation: 3,
+    },
+    btnSave: {
+        backgroundColor: '#4A158E',
+        width: 120,
+        alignSelf: 'flex-end',
+        marginRight: 20,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    btnOut: {
+        backgroundColor: '#282828',
+        width: 310,
+        marginHorizontal: 30,
+        padding: 10,
     },
     text: {
         fontSize: 16,
@@ -188,5 +201,9 @@ const styles = StyleSheet.create({
     userInfo: {
         flex: 1,
         marginLeft: 40
+    },
+    inputs: {
+        fontSize: 16,
+        fontWeight: 'thin'
     },
 })
