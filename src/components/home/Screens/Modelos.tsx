@@ -1,10 +1,11 @@
-import { View, Text, Alert, FlatList, Dimensions, ScrollView, Pressable } from 'react-native'
+import { View, Text, Alert, FlatList, Image, ScrollView, Pressable, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../../../../lib/supabase'
 import { FlashList } from "@shopify/flash-list";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Modelo = {
   id: number;
@@ -18,17 +19,26 @@ type Modelo = {
 };
 
 const Modelos = ({ session }: { session: Session })  => {
+  const navigation = useNavigation(); 
+
   const [loading, setLoading] = useState(true);
   const [modelos, setModelos] = useState<Modelo[]>([]);
-  const navigation = useNavigation(); 
+
+  const [imagenes, setImagenes] = useState<{ [key: string]: string }>({});
+  const [imagenesCargadas, setImagenesCargadas] = useState(false);
+
 
   useEffect(() => {
     if (session) getModelos();
+
+    setImagenes({});
+    setImagenesCargadas(false);
   }, [session]);
 
   async function getModelos() {
     try {
       setLoading(true);
+      setImagenesCargadas(false); 
       if (!session?.user) throw new Error('No user on the session!');
 
       const { data, error, status } = await supabase
@@ -40,11 +50,42 @@ const Modelos = ({ session }: { session: Session })  => {
 
       setModelos(data || []); 
 
+      if (data) {
+        // Esperar a que todas las imágenes sean descargadas antes de continuar
+        await Promise.all(data.map(async (publicacion) => {
+          if (publicacion.foto) {
+            await downloadImage(publicacion.foto, publicacion.id.toString());
+          }
+        }));
+        setImagenesCargadas(true); // Marcar que todas las imágenes han sido cargadas
+      }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      setImagenesCargadas(false); // Asegurar que se restablezca si hay un error
       if (error instanceof Error) {
         Alert.alert(error.message);
+      }
+    }
+  }
+
+  async function downloadImage(path: string, publicacionId: string) {
+    try {
+      const { data, error } = await supabase.storage.from('background').download(path);
+  
+      if (error) {
+        throw error;top
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(data);
+      fr.onload = () => {
+        // Actualizar el estado con la imagen correspondiente a la publicación
+        setImagenes(prev => ({ ...prev, [publicacionId]: fr.result as string }));
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('Error: ', error.message);
       }
     }
   }
@@ -59,7 +100,8 @@ const Modelos = ({ session }: { session: Session })  => {
 
   const renderItem = ({ item }: { item: Modelo }) => (
     <>
-      <View className='border-2 mt-5'>
+    {imagenesCargadas && (
+      <View className='border-2 mt-5 ml-2'>
         <Pressable onPress={() => TestModelo(item)}>
           <Text className='text-lg py-3 items-center'>Presiona para testear</Text>
         </Pressable>
@@ -69,12 +111,22 @@ const Modelos = ({ session }: { session: Session })  => {
         <Text>Fecha: {item.fecha}</Text>
         <Text>Categoria: {item.categoria}</Text>
         <Text>foto: {item.foto}</Text>
+        {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={{ width: 200, height: 200 }} />}
       </View>
+     )}
     </>
   );
+  const { top } = useSafeAreaInsets()
 
   return (
-    <View >
+    <ScrollView refreshControl={ 
+      <RefreshControl
+        refreshing={loading}
+        onRefresh={getModelos}
+        progressViewOffset={top}
+        colors={['#9Bd35A', '#689F38']}
+        progressBackgroundColor="#fff"
+        />}>
       {loading ? (
         <Text>Cargando...</Text>
       ) : (
@@ -90,7 +142,7 @@ const Modelos = ({ session }: { session: Session })  => {
         </>
       )}
       
-    </View>
+    </ScrollView>
   );
 
 }
