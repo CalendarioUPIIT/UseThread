@@ -9,7 +9,7 @@ import { Input } from '@rneui/themed'
 import { useColorScheme } from 'nativewind'
 import { StatusBar } from 'expo-status-bar'
 
-import TopBar from '../screens/TopBar';
+import TopBar from '../../components/home/Screens/TopBar';
 
 export default function Account({ session }: { session: Session }) {
 
