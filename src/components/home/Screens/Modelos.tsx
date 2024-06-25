@@ -119,7 +119,7 @@ const Modelos = ({ session }: { session: Session })  => {
   const { top } = useSafeAreaInsets()
 
   return (
-    <ScrollView refreshControl={ 
+    <ScrollView className="dark:bg-black text-black dark:text-whites" refreshControl={ 
       <RefreshControl
         refreshing={loading}
         onRefresh={getModelos}

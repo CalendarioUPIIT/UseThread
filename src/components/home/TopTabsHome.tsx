@@ -9,10 +9,10 @@ import Modelos from './Screens/Modelos';
 import ImageToText from '../categorias/ImageToText';
 import ImageToImage from '../categorias/ImageToImage';
 import TextToImage from '../categorias/TextToImage';
+import { useColorScheme } from 'nativewind'
 
 const Tab = createMaterialTopTabNavigator()
 const Stack = createNativeStackNavigator()
-
 
 function CrearModeloWrapper({ route }: { route: any }) {
   const { session } = route.params;
@@ -73,14 +73,24 @@ function StackNavigatorModelos({ route }: { route: any }) {
 
 
 const TopTabsHome = ({ session }: { session: Session }) => {
+  const {colorScheme, toggleColorScheme} = useColorScheme()
   return (
     <Tab.Navigator screenOptions={{
       tabBarStyle: {
         borderTopWidth: 0,
         paddingBottom: 5,
+        backgroundColor: colorScheme === "dark" ? "#030712" : "#FFFFFF",
     },
+    tabBarLabelStyle: {
+      color: '#FFFFFF',
+    },
+    tabBarIndicatorStyle: {
+      backgroundColor: '#6d28d9',
+    },
+    tabBarActiveTintColor: '#6d28d9',
+    tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)'
     }}>
-        <Tab.Screen name="Feed" initialParams={{ session: session }} component={ StackNavigatorFeed } />
+        <Tab.Screen name="Feed" initialParams={{ session: session }} component={ StackNavigatorFeed }/>
         <Tab.Screen name="Modelos" initialParams={{ session: session }} component={ StackNavigatorModelos } />
     </Tab.Navigator>
   )
