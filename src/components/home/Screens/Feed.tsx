@@ -20,6 +20,7 @@ type Publicacion = {
   modelo: string;
   entrada: string;
   resultado: string;
+  categoria: string;
 };
 
 type Modelo = {
@@ -36,21 +37,29 @@ type Modelo = {
 const Feed = ({ session }: { session: Session }) => {
     const navigation = useNavigation(); 
 
-  const [modelos, setModelos] = useState<Modelo[]>([]);
-
-    
-    const [loading, setLoading] = useState(true);
+    const [modelos, setModelos] = useState<Modelo[]>([]);
     const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const [loadingModelos, setLoadingModelos] = useState(true);
+
     const [imagenes, setImagenes] = useState<{ [key: string]: string }>({});
+    const [background, setBackground] = useState<{ [key: string]: string }>({});
+    
     const [imagenesCargadas, setImagenesCargadas] = useState(false);
+    const [modelosCargados, setModelosCargados] = useState(false);
 
     
     useEffect(() => {
-      if (session) getPublicaciones(), getModelos();
-      // Restablecer el estado de carga de imágenes cuando la sesión cambie
+      if (session) {
+        getPublicaciones();
+        getModelos();
+      }
+      setBackground({});
       setImagenes({});
+
       setImagenesCargadas(false);
+      setModelosCargados(false);
     }, [session]);
 
     async function getPublicaciones() {
@@ -61,7 +70,8 @@ const Feed = ({ session }: { session: Session }) => {
     
         const { data, error, status } = await supabase
           .from('publicaciones')
-          .select(`*`);
+          .select(`*`)
+          .order('fecha', { ascending: false });
         if (error && status !== 406) {
           throw error;
         }
@@ -110,15 +120,15 @@ const Feed = ({ session }: { session: Session }) => {
 
   async function getModelos() {
     try {
-      setLoading(true);
-      setImagenesCargadas(false); 
+      setLoadingModelos(true);
+      setModelosCargados(false); 
       if (!session?.user) throw new Error('No user on the session!');
 
       const { data, error, status } = await supabase
         .from('modelos')
         .select(`*`)
         .order('fecha', { ascending: false })
-        .limit(3)
+        .limit(5)
 
       console.log(data);
 
@@ -135,13 +145,13 @@ const Feed = ({ session }: { session: Session }) => {
             await downloadImageBackground(publicacion.foto, publicacion.id.toString());
           }
         }));
-        setImagenesCargadas(true); // Marcar que todas las imágenes han sido cargadas
+        setModelosCargados(true); // Marcar que todas las imágenes han sido cargadas
       }
+      setLoadingModelos(false);
 
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
-      setImagenesCargadas(false); // Asegurar que se restablezca si hay un error
+      setLoadingModelos(false);
+      setModelosCargados(false); // Asegurar que se restablezca si hay un error
       if (error instanceof Error) {
         Alert.alert(error.message);
       }
@@ -153,13 +163,13 @@ const Feed = ({ session }: { session: Session }) => {
       const { data, error } = await supabase.storage.from('background').download(path);
   
       if (error) {
-        throw error;top
+        throw error;
       }
       const fr = new FileReader();
       fr.readAsDataURL(data);
       fr.onload = () => {
         // Actualizar el estado con la imagen correspondiente a la publicación
-        setImagenes(prev => ({ ...prev, [publicacionId]: fr.result as string }));
+        setBackground(prev => ({ ...prev, [publicacionId]: fr.result as string }));
       };
     } catch (error) {
       if (error instanceof Error) {
@@ -169,6 +179,16 @@ const Feed = ({ session }: { session: Session }) => {
   }
 
 
+  function TestModelo(item: Publicacion) {
+    const categorias = ["ImageToText", "TextToImage", "ImageToImage"];
+    if (categorias.includes(item.categoria)) {
+      console.log(item.categoria);
+
+    // @ts-ignore
+      navigation.navigate(item.categoria, { modelo: item.modelo });
+    }
+  }
+
     const renderItem = ({ item }: { item: Publicacion }) => (
       <>
         {imagenesCargadas && (
@@ -177,13 +197,17 @@ const Feed = ({ session }: { session: Session }) => {
               <View></View>
               <View className='flex-col'>
                 <Text className='text-black dark:text-white font-bold text-xl'>{item.modelo}</Text>
+                <Text className='text-black dark:text-white font-bold'>{item.categoria}</Text>
                 <Text className='text-black dark:text-white font-thin text-sm'>
                 {format(parseISO(item.fecha), "EEE, dd MMM, yyyy", { locale: es })}
                 </Text>
               </View>
+              <Pressable onPress={() => TestModelo(item)}>
               <View className='justify-start align-top ml-3'>
                 <Ionicons name="play-forward-outline" size={35} color={colorScheme == "dark" ? "white" : "black"}/>
-              </View>
+              </View> 
+              </Pressable>
+              
             </View>
             <Text className='text-black dark:text-white mb-2 mt-2 text-lg mr-2 ml-2'>Entrada: </Text>
             {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imagePost} />}
@@ -191,6 +215,8 @@ const Feed = ({ session }: { session: Session }) => {
               <Text className='text-black dark:text-white w-24 mr-4'>{item.usuario}</Text>
               <Text className='text-black dark:text-white w-44'>{item.resultado}</Text>
             </View>
+            <Text className='text-black dark:text-white w-44'>{item.categoria}</Text>
+
           </View>
         )}
       </>
@@ -198,9 +224,9 @@ const Feed = ({ session }: { session: Session }) => {
 
     const renderItemModelo = ({ item }: { item: Modelo }) => (
       <>
-        {imagenesCargadas && (
+        {modelosCargados && (
           <View className='mt-0 ml-4'>
-            {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imageModel} />}
+            {background[item.id] && <Image source={{ uri: background[item.id] }} style={styles.imageModel} />}
             <Text className='text-black dark:text-white hidden'>usuario: {item.usuario}</Text>
             <Text className='text-black dark:text-white hidden'>Modelo: {item.modelo}</Text>
             <Text className='text-black dark:text-white hidden'>Fecha: {item.fecha}</Text>
@@ -212,16 +238,17 @@ const Feed = ({ session }: { session: Session }) => {
     const { top } = useSafeAreaInsets()
 
     const onRefresh = () => {
-      getPublicaciones();
       getModelos();
+      getPublicaciones();
     };
+
 
     const {colorScheme, toggleColorScheme} = useColorScheme()
 
     return (
       <ScrollView className="dark:bg-black" refreshControl={ 
       <RefreshControl
-        refreshing={loading}
+        refreshing={loading && loadingModelos}
         onRefresh={onRefresh}
         progressViewOffset={top}
         colors={['#9Bd35A', '#689F38']}
@@ -245,15 +272,16 @@ const Feed = ({ session }: { session: Session }) => {
 
     {/* Contenedor para la lista, ajustado para ocupar el espacio restante */}
     <View style={{ flex: 1 }}>
-      {loading ? (
+      {loadingModelos ? (
         <Text>Cargando...</Text>
       ) : (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <FlatList
+        <ScrollView contentContainerStyle={{ flex: 1}}>
+          <FlashList
             data={modelos}
             renderItem={renderItemModelo}
             keyExtractor={item => item.id.toString()}
             horizontal={true}
+            estimatedItemSize={200}
           />
         </ScrollView>
       )} 
@@ -261,16 +289,13 @@ const Feed = ({ session }: { session: Session }) => {
   </View>
 </View>
       
-
-
-
       <View className='pt-5 pb-5 mr-7 ml-7' >
         <View >
         {loading ? (
           <Text>Cargando...</Text>
         ) : (
           <> 
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView contentContainerStyle={{ flex: 1 }}>
               <FlashList
               data={publicaciones}
               renderItem={renderItem}

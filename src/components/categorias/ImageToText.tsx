@@ -106,6 +106,7 @@ const ImageToText =({ session, modelo }: { session: Session; modelo: string }) =
               modelo: modelo,
               entrada: path,
               resultado: result?.generated_text,
+              categoria: "ImageToText"
           })
       
           console.log(error)

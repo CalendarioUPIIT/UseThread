@@ -52,9 +52,14 @@ function StackNavigatorFeed({ route }: { route: any }) {
     }}>
       <Stack.Screen name="Principal" initialParams={{ session: session }} component={FeedWrapper} />
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
+      <Stack.Screen name="ImageToText" initialParams={{ session: session }} component={ImageToTextWrapper} />
+      <Stack.Screen name="ImageToImage" initialParams={{ session: session }} component={ImageToImageWrapper} />
+      <Stack.Screen name="TextToImage" initialParams={{ session: session }} component={TextToImageWrapper} />
     </Stack.Navigator>
   )
 }
+
+
 
 function StackNavigatorModelos({ route }: { route: any }) {
   const { session } = route.params;
