@@ -11,8 +11,8 @@ module.exports = {
       'soft-white': '#e4e4e7',
       'gray' : '#282828',
       'purple': '#6d28d9',
-      'purple2': '#a855f7'
-
+      'purple2': '#a855f7',
+      'red' : '#f87171'
     },
   },
   plugins: [],

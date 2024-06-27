@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import OtraScreen from '../screens/OtraScreen';
 import { useColorScheme } from 'nativewind';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CrearModeloScreen from '../Formulario/CrearModeloForm';
+import CrearModeloScreen from '../Formulario/CrearModeloForm2';
 import EditProfileScreen from '../components/users/EditProfile';
 
 const BottomTab = createBottomTabNavigator();   

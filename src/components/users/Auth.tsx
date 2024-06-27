@@ -90,7 +90,6 @@ export default function Auth() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
     padding: 20,
     flex: 1,
     justifyContent: 'center',

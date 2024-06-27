@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
+import LottieView from 'lottie-react-native';
 
 type ImageUri = string | null;
 type ImageMime = string | null;
@@ -14,6 +15,7 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
 
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon.png');
+  const [animationSource, setAnimationSource] = useState<any>(require('../../../assets/animations/Model.json'));
 
   async function AbrirCamara(
     setModalVisible: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; },
@@ -124,7 +126,19 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
 
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View className="flex items-center justify-center"> 
-        <Image source={{ uri: imageUri }} style={{ height: 200, width: 200, borderRadius: 30 }} />
+          {!imageUri || imageUri === 'https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon.png' ? (
+            <LottieView
+              source={animationSource}
+              autoPlay
+              loop
+              style={{ width: 200, height: 200 }}
+            />
+          ) : (
+            <Image 
+              source={{ uri: imageUri }} 
+              style={{ height: 200, width: 200, borderRadius: 30 }} 
+            />
+          )}
         </View>
       </TouchableOpacity>
     </View>

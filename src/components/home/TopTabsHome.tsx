@@ -3,7 +3,7 @@ import React from 'react'
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs" 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Session } from '@supabase/supabase-js'
-import CrearModeloScreen from '../../Formulario/CrearModeloForm';
+import CrearModeloScreen from '../../Formulario/CrearModeloForm2';
 import Feed from './Screens/Feed';
 import Modelos from './Screens/Modelos';
 import ImageToText from '../categorias/ImageToText';
@@ -85,7 +85,7 @@ const TopTabsHome = ({ session }: { session: Session }) => {
         backgroundColor: colorScheme === "dark" ? "#030712" : "#FFFFFF",
     },
     tabBarLabelStyle: {
-      color: '#FFFFFF',
+      color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
     },
     tabBarIndicatorStyle: {
       backgroundColor: '#6d28d9',

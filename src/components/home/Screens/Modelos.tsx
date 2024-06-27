@@ -6,6 +6,11 @@ import { FlashList } from "@shopify/flash-list";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import { useColorScheme } from 'nativewind'
+import { format, parseISO } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 type Modelo = {
   id: number;
@@ -98,20 +103,28 @@ const Modelos = ({ session }: { session: Session })  => {
     }
   }
 
+  const {colorScheme, toggleColorScheme} = useColorScheme()
+
   const renderItem = ({ item }: { item: Modelo }) => (
     <>
     {imagenesCargadas && (
-      <View className='border-2 mt-5 ml-2'>
-        <Pressable onPress={() => TestModelo(item)}>
-          <Text className='text-lg py-3 items-center'>Presiona para testear</Text>
-        </Pressable>
-        <Text>Nombre: {item.nombre}</Text>
-        <Text>Modelo: {item.modelo}</Text>
-        <Text>Descripción: {item.descripcion}</Text>
-        <Text>Fecha: {item.fecha}</Text>
-        <Text>Categoria: {item.categoria}</Text>
-        <Text>foto: {item.foto}</Text>
-        {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={{ width: 200, height: 200 }} />}
+      <View className='mb-3 pt-3 pb-3 pr-8 pl-8 max-w-screen-sm flex-row'>
+        {imagenes[item.id] && <Image className='mr-5' source={{ uri: imagenes[item.id] }} style={{ width: 150, height: 150 }} />}
+        <View className='flex-col w-48 pr-4'>
+          <View className='flex flex-row justify-between items-center w-full'>
+            <Text className='text-black dark:text-whites text-2xl font-bold'>{item.nombre}</Text>
+            <Pressable className='flex flex-row p-2' onPress={() => TestModelo(item)}>
+              <Ionicons name="play-forward-outline" size={25} color={colorScheme == "dark" ? "white" : "black"}/>
+            </Pressable>
+          </View>
+
+          <Text className='text-black dark:text-whites'>Modelo: {item.modelo}</Text>
+          <Text className='text-black dark:text-whites'>{item.descripcion}</Text>
+          <Text className='text-black dark:text-whites font-thin'>
+          {format(parseISO(item.fecha), "EEE, dd MMM, yyyy", { locale: es })}
+          </Text>
+          <Text className='text-black dark:text-whites'>Categoria: {item.categoria}</Text>
+        </View>
       </View>
      )}
     </>
@@ -119,7 +132,7 @@ const Modelos = ({ session }: { session: Session })  => {
   const { top } = useSafeAreaInsets()
 
   return (
-    <ScrollView className="dark:bg-black text-black dark:text-whites" refreshControl={ 
+    <ScrollView className="dark:bg-black text-black" refreshControl={ 
       <RefreshControl
         refreshing={loading}
         onRefresh={getModelos}
