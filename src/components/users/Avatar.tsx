@@ -57,7 +57,6 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
       }
 
       const image = result.assets[0]
-      console.log('Got image', image)
 
       if (!image.uri) {
         throw new Error('No image uri!') // Realistically, this should never happen, but just in case...

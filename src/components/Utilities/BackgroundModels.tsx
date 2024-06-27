@@ -35,7 +35,6 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
     }
 
     const image = result.assets[0];
-    console.log("Camara de Background.tsx: ", image.mimeType);
 
     if (!image.uri) {
       throw new Error('No image uri!');
@@ -65,7 +64,6 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
       return
     }
     const image = result.assets[0]
-    console.log("Libreria de Background.tsx: ", image);
 
     if (!image.uri) {
       throw new Error('No image uri!') 

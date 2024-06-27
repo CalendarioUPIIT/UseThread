@@ -24,8 +24,6 @@ function FeedWrapper({ route }: { route: any }) {
   return <Feed key={session.user.id} session={session} />;
 }
 
-
-
 function ModelosWrapper({ route }: { route: any }) {
   const { session } = route.params;
   return <Modelos key={session.user.id} session={session} />;

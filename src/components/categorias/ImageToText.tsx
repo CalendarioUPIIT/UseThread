@@ -16,7 +16,6 @@ async function fetchImageAndInfer(imageUri: ImageUri, modelo: string) {
 
   const hf = new HfInference(apiHF);
   const model = modelo;
-  console.log("Modelo: ", model);
 
   try {
     const response = await fetch(imageUri);
@@ -26,9 +25,6 @@ async function fetchImageAndInfer(imageUri: ImageUri, modelo: string) {
       data: blob,
       model: model,
     });
-
-    console.log(result);
-    console.log(typeof result);
 
     return result || null;
   } catch (error) {

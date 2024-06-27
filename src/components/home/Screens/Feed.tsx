@@ -21,6 +21,10 @@ type Publicacion = {
   entrada: string;
   resultado: string;
   categoria: string;
+  profiles: { 
+    username: string; 
+    avatar_url: string 
+  };
 };
 
 type Modelo = {
@@ -45,6 +49,7 @@ const Feed = ({ session }: { session: Session }) => {
 
     const [imagenes, setImagenes] = useState<{ [key: string]: string }>({});
     const [background, setBackground] = useState<{ [key: string]: string }>({});
+    const [avatar, setAvatar] = useState<{ [key: string]: string }>({});
     
     const [imagenesCargadas, setImagenesCargadas] = useState(false);
     const [modelosCargados, setModelosCargados] = useState(false);
@@ -70,11 +75,12 @@ const Feed = ({ session }: { session: Session }) => {
     
         const { data, error, status } = await supabase
           .from('publicaciones')
-          .select(`*`)
+          .select(`*, profiles(username, avatar_url)`)
           .order('fecha', { ascending: false });
         if (error && status !== 406) {
           throw error;
         }
+
     
         setPublicaciones(data || []);
     
@@ -83,6 +89,7 @@ const Feed = ({ session }: { session: Session }) => {
           await Promise.all(data.map(async (publicacion) => {
             if (publicacion.entrada) {
               await downloadImage(publicacion.entrada, publicacion.id.toString());
+              await downloadAvatar(publicacion.profiles.avatar_url, publicacion.id.toString());
             }
           }));
           setImagenesCargadas(true); // Marcar que todas las imágenes han sido cargadas
@@ -102,13 +109,32 @@ const Feed = ({ session }: { session: Session }) => {
         const { data, error } = await supabase.storage.from('publish').download(path);
     
         if (error) {
-          throw error;top
+          throw error;
         }
         const fr = new FileReader();
         fr.readAsDataURL(data);
         fr.onload = () => {
           // Actualizar el estado con la imagen correspondiente a la publicación
           setImagenes(prev => ({ ...prev, [publicacionId]: fr.result as string }));
+        };
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log('Error: ', error.message);
+        }
+      }
+    }
+    async function downloadAvatar(path: string, publicacionId: string) {
+      try {
+        const { data, error } = await supabase.storage.from('avatars').download(path);
+    
+        if (error) {
+          throw error;
+        }
+        const fr = new FileReader();
+        fr.readAsDataURL(data);
+        fr.onload = () => {
+          // Actualizar el estado con la imagen correspondiente a la publicación
+          setAvatar(prev => ({ ...prev, [publicacionId]: fr.result as string }));
         };
       } catch (error) {
         if (error instanceof Error) {
@@ -130,7 +156,6 @@ const Feed = ({ session }: { session: Session }) => {
         .order('fecha', { ascending: false })
         .limit(5)
 
-      console.log(data);
 
       if (error && status !== 406) {
         throw error;
@@ -188,14 +213,19 @@ const Feed = ({ session }: { session: Session }) => {
       navigation.navigate(item.categoria, { modelo: item.modelo });
     }
   }
-
-    const renderItem = ({ item }: { item: Publicacion }) => (
+    const renderItemPublicacion = ({ item }: { item: Publicacion }) => (
       <>
         {imagenesCargadas && (
           <View className='mt-5 dark:bg-gray p-5 rounded-2xl'>
             <View className='flex-row max-w-full mr-2 ml-2'>
               <View></View>
               <View className='flex-col'>
+             {avatar[item.id] && <Image source={{ uri: avatar[item.id] }} className='w-10 h-10' />}
+
+
+
+              <Text className='text-black dark:text-white font-bold text-lg'>{item.profiles.username}</Text>
+
                 <Text className='text-black dark:text-white font-bold text-xl'>{item.modelo}</Text>
                 <Text className='text-black dark:text-white font-bold'>{item.categoria}</Text>
                 <Text className='text-black dark:text-white font-thin text-sm'>
@@ -298,7 +328,7 @@ const Feed = ({ session }: { session: Session }) => {
           <ScrollView contentContainerStyle={{ flex: 1 }}>
               <FlashList
               data={publicaciones}
-              renderItem={renderItem}
+              renderItem={renderItemPublicacion}
               keyExtractor={item => item.id.toString()}
               estimatedItemSize={200}
               />
