@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useNavigation } from '@react-navigation/native'
 
 import TopBar from '../../components/home/Screens/TopBar';
+import UserTabs from '../home/TopTabsHome';
 
 export default function Account({ session }: { session: Session }) {
   
@@ -132,6 +133,8 @@ export default function Account({ session }: { session: Session }) {
           </View>
         </View>
       </View>
+
+      <UserTabs.TabsProfile key={session.user.id} session={session} />
 
     </SafeAreaView>
   )

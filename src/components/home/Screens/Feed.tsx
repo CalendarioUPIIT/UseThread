@@ -216,37 +216,55 @@ const Feed = ({ session }: { session: Session }) => {
     const renderItemPublicacion = ({ item }: { item: Publicacion }) => (
       <>
         {imagenesCargadas && (
-          <View className='mt-5 dark:bg-gray p-5 rounded-2xl'>
-            <View className='flex-row max-w-full mr-2 ml-2'>
-              <View></View>
-              <View className='flex-col'>
-             {avatar[item.id] && <Image source={{ uri: avatar[item.id] }} className='w-10 h-10' />}
+          <View className='mt-2 bg-whites dark:bg-gray pr-5 pl-5 pb-3 pt-3 rounded-2xl'>
+            <View className='flex-row w-full'>
+              <View className='flex-row w-full p-2 align-middle justify-between'>
+                {avatar[item.id] && <Image source={{ uri: avatar[item.id] }} className='w-10 h-10 rounded-3xl self-start' />}
 
+                <View className='flex-col self-start w-36'>
+                  <Text className='text-black dark:text-white font-bold text-lg'>{item.profiles.username}</Text>
+                  <Text className='text-black dark:text-white font-thin text-sm'>
+                  {format(parseISO(item.fecha), "EEE, dd MMM, yyyy", { locale: es })}
+                  </Text>
+                  <Text className='text-black dark:text-white font-bold'>{item.categoria}</Text>
+                </View>
 
-
-              <Text className='text-black dark:text-white font-bold text-lg'>{item.profiles.username}</Text>
-
-                <Text className='text-black dark:text-white font-bold text-xl'>{item.modelo}</Text>
-                <Text className='text-black dark:text-white font-bold'>{item.categoria}</Text>
-                <Text className='text-black dark:text-white font-thin text-sm'>
-                {format(parseISO(item.fecha), "EEE, dd MMM, yyyy", { locale: es })}
-                </Text>
+                <Pressable onPress={() => TestModelo(item)}>
+                  <View className='justify-start align-top ml-3 self-end'>
+                    <Ionicons name="play-forward-outline" size={35} color={colorScheme == "dark" ? "white" : "black"}/>
+                  </View> 
+                </Pressable>
               </View>
-              <Pressable onPress={() => TestModelo(item)}>
-              <View className='justify-start align-top ml-3'>
-                <Ionicons name="play-forward-outline" size={35} color={colorScheme == "dark" ? "white" : "black"}/>
-              </View> 
-              </Pressable>
-              
-            </View>
-            <Text className='text-black dark:text-white mb-2 mt-2 text-lg mr-2 ml-2'>Entrada: </Text>
-            {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imagePost} />}
-            <View className='flex-row align-middle w-full items-center justify-center mt-6'>
-              <Text className='text-black dark:text-white w-24 mr-4'>{item.usuario}</Text>
-              <Text className='text-black dark:text-white w-44'>{item.resultado}</Text>
-            </View>
-            <Text className='text-black dark:text-white w-44'>{item.categoria}</Text>
 
+
+            </View>
+            <Text className='text-black dark:text-white mb-2 mt-2 text-lg mr-2 ml-2 font-bold'>Entrada: </Text>
+            {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imagePost} />}
+            <View className='w-full'>
+              <View className='bg-soft-white dark:bg-black w-56 h-15 flex flex-row rounded-3xl pr-6 pl-6 pt-2 pb-2 align-middle justify-between -mt-6 self-center'>
+                <View className='flex flex-col mr-3 align-middle justify-center items-center'>
+                  <Ionicons name="heart-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites text-center'>10.2k likes</Text>
+                </View>
+
+                <View className='flex flex-col mr-3 align-middle justify-center items-center'>
+                  <Ionicons name="play-forward-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites'>20.1k likes</Text>
+                </View>
+
+                <View className='flex flex-col mr-3 align-middle justify-center items-center'>
+                  <Ionicons name="navigate-circle-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites'>20.1k shares</Text>
+                </View>
+              </View>
+            </View>
+
+            <View className='flex-col align-middle w-full pr-5 pl-5 justify-center mt-6'>
+              <Text className='dark:text-whites text-lg font-bold self-start'>Modelo: </Text>
+              <Text className='text-black dark:text-white font-thin text-lg w-full'>{item.modelo}</Text>
+              <Text className='dark:text-whites text-lg font-bold self-start'>Resultado: </Text>
+              <Text className='text-black dark:text-white w-full font-thin'>{item.resultado}</Text>
+            </View>
           </View>
         )}
       </>

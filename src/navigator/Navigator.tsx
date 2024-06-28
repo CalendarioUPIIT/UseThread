@@ -64,6 +64,7 @@ export const Navigator = ({ session }: { session: any }) => {
         borderTopWidth: 0,
         paddingBottom: 5,
         backgroundColor: colorScheme === 'dark' ? 'black' : 'white',
+        height: 65,
     },
     }}>
       
@@ -78,12 +79,22 @@ export const Navigator = ({ session }: { session: any }) => {
           }} />
 
       <BottomTab.Screen 
-          name="Practicas" 
+          name="Buscar" 
           component={OtraScreen} 
           initialParams={{ session: session }}
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "documents" : "documents-outline"} color={color} size={26} />
+              <Ionicons name={focused ? "documents" : "search-outline"} color={color} size={26} />
+            ),
+          }} />
+
+        <BottomTab.Screen 
+          name="Subir Modelo" 
+          component={CrearModeloWrapper} 
+          initialParams={{ session: session }}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons name={focused ? "documents" : "add-circle-outline"} color={color} size={26} />
             ),
           }} />
 

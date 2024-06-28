@@ -6,11 +6,11 @@ import { ImageToTextOutput } from "@huggingface/inference";
 import { useNavigation } from '@react-navigation/native';
 import CrearModeloScreen from '../Formulario/CrearModeloForm';
 import { Session } from '@supabase/supabase-js'
-import TopTabsHome from '../components/home/TopTabsHome';
+import TabsHome from '../components/home/TopTabsHome';
 
 
 export default function HomeScreen({ session }: { session: Session }) {
   return (
-    <TopTabsHome key={session.user.id} session={session} />
+    <TabsHome.TopTabsHome key={session.user.id} session={session} />
   );
 }

@@ -9,6 +9,9 @@ import Modelos from './Screens/Modelos';
 import ImageToText from '../categorias/ImageToText';
 import ImageToImage from '../categorias/ImageToImage';
 import TextToImage from '../categorias/TextToImage';
+import UserPosts from '../users/Posts';
+import UserModels from '../users/UserModels';
+
 import { useColorScheme } from 'nativewind'
 
 const Tab = createMaterialTopTabNavigator()
@@ -40,6 +43,15 @@ function TextToImageWrapper({ route }: { route: any }) {
   const { session } = route.params;
   return <TextToImage key={session.user.id} session={session} />;
 }
+function UserPostsWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <UserPosts key={session.user.id} session={session} />;
+}
+function UserModelsWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <UserPosts key={session.user.id} session={session} />;
+}
+
 
 function StackNavigatorFeed({ route }: { route: any }) {
   const { session } = route.params;
@@ -73,6 +85,18 @@ function StackNavigatorModelos({ route }: { route: any }) {
   )
 }
 
+function StackNavigatorUser({ route }: { route: any }) {
+  const { session } = route.params;
+  return (
+    <Stack.Navigator screenOptions={{
+      headerShown: false,
+    }}>
+      <Stack.Screen name="Publicaciones" initialParams={{ session: session }} component={UserPostsWrapper} />
+      <Stack.Screen name="Modelos" initialParams={{ session: session }} component={UserModelsWrapper} />
+    </Stack.Navigator>
+  )
+}
+
 
 
 const TopTabsHome = ({ session }: { session: Session }) => {
@@ -82,7 +106,7 @@ const TopTabsHome = ({ session }: { session: Session }) => {
       tabBarStyle: {
         borderTopWidth: 0,
         paddingBottom: 5,
-        backgroundColor: colorScheme === "dark" ? "#030712" : "#FFFFFF",
+        backgroundColor: colorScheme === "dark" ? "#030712" : "#e4e4e7",
     },
     tabBarLabelStyle: {
       color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
@@ -99,4 +123,28 @@ const TopTabsHome = ({ session }: { session: Session }) => {
   )
 }
 
-export default TopTabsHome
+const TabsProfile = ({ session }: { session: Session }) => {
+  const {colorScheme, toggleColorScheme} = useColorScheme()
+  return (
+    <Tab.Navigator screenOptions={{
+      tabBarStyle: {
+        borderTopWidth: 0,
+        paddingBottom: 5,
+        backgroundColor: colorScheme === "dark" ? "#030712" : "#e4e4e7",
+    },
+    tabBarLabelStyle: {
+      color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
+    },
+    tabBarIndicatorStyle: {
+      backgroundColor: '#6d28d9',
+    },
+    tabBarActiveTintColor: '#6d28d9',
+    tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)'
+    }}>
+        <Tab.Screen name="Publicaciones" initialParams={{ session: session }} component={ StackNavigatorUser }/>
+        <Tab.Screen name="Mis Modelos" initialParams={{ session: session }} component={ StackNavigatorUser } />
+    </Tab.Navigator>
+  )
+}
+
+export default {TopTabsHome, TabsProfile};

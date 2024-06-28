@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useColorScheme } from 'nativewind';
-
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { Session } from '@supabase/supabase-js';
 
-export default function OtraScreen() {
+export default function UserPosts({ session }: { session: Session }) {
   const {colorScheme, toggleColorScheme} = useColorScheme()
   return (
     <View className='flex flex-col bg-soft-whites text-black dark:bg-black dark:text-whites h-full w-full items-center p-14'>
