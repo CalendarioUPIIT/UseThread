@@ -113,12 +113,25 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
     const animationRef = useRef(null);
 
     return (
-        <ScrollView className='dark:bg-black dark:text-whites'>
-            <View className='dark:bg-black dark:text-whites align-middle justify-center pt-20'>
+        <View className="flex-1 justify-center items-center border-spacing-20 overflow-hidden bg-soft-white dark:bg-black">
+        <ScrollView 
+            className="w-full"
+            contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            }}>
+            
+            
+            <View className='h-40 w-40 z-10 rounded-full left-72 -top-28 border-2 border-purple absolute bg-purple2 opacity-40'></View>
+            <View className='h-40 w-40 z-10 rounded-full left-52 -top-32 border-2 border-purple absolute'></View>
+
+
+            <View className=' dark:bg-black dark:text-whites align-middle justify-center pt-20 pb-14 w-full'>
                 {currentStep === 0 && (
                   <View>
-                    <Text className='dark:text-whites text-5xl w-full text-center '> Elige la categoria </Text>
-                    <Text className='dark:text-whites text-xl w-full text-center mt-8 font-thin'> Selecciona la que mejor describe a tu modelo </Text>
+                    <Text className='dark:text-whites text-4xl w-full text-center font-poppins-bold'> Elige la categoria </Text>
+                    <Text className='dark:text-whites text-xl w-full text-center mt-8 font-poppins-thin'> Selecciona la que mejor describe a tu modelo </Text>
                     <ScrollView 
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
@@ -132,12 +145,12 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                                 setSelectedComponent(categoria.component);
                                 setCurrentStep(1);
                             }}
-                            className={`flex flex-col items-center justify-center w-28 mr-5 h-40 rounded-lg mt-2 border border-solid border-black dark:border-whites ${
+                            className={`flex flex-col items-center justify-center w-28 mr-3 h-40 rounded-lg mt-2 border border-solid border-black dark:border-whites ${
                                 colorScheme === 'dark' ? 'bg-black' : 'bg-transparent'
                             } justify-between pt-8 pb-8`}
                         >
                             {categoria.icono(colorScheme === 'dark' ? 'white' : 'black')}
-                            <Text className={`text-lg font-thin self-center text-center ${
+                            <Text className={`text-lg font-thin self-center text-center font-poppins ${
                                 colorScheme === 'dark' ? 'text-whites' : 'text-black'
                             }`}>
                                 {categoria.nombre}
@@ -150,15 +163,15 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                 )}
 
                 {currentStep > 0 && currentStep < steps.length && (
-                    <View className='flex flex-col w-full justify-between'>
-                        <Text className='text-4xl self-center text-center text-black dark:text-whites mb-6'>{steps[currentStep].title}  </Text>
+                    <View className='flex flex-col w-full justify-between h-full pl-5 pr-5'>
+                        <Text className='text-4xl self-center text-center text-black dark:text-whites mb-6 font-poppins'>{steps[currentStep].title}  </Text>
                         {steps[currentStep].field === 'descripcion' ? (
                             <TextInput
                                 multiline={true}
                                 numberOfLines={6}
                                 maxLength={200}
                                 onChangeText={(text) => setDescripcion(text)}
-                                className='w-11/12 h-15 bg-gray-200 rounded-lg p-3 ml-5 mr-5 mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites'
+                                className='w-80 h-15 bg-gray-200 rounded-lg mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites font-poppins'
                                 placeholder={`Descripcion: `}
                                 placeholderTextColor={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
                                 style={{ fontSize: 24 }}
@@ -168,7 +181,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                         )  : steps[currentStep].field === 'nombre' ? (
                           <TextInput
                               onChangeText={(text) => { setNombre(text);}}
-                              className='w-11/12 h-15 bg-gray-200 rounded-lg p-3 ml-5 mr-5 mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites'
+                              className='w-80 h-15 rounded-lg p-3 ml-5 mr-5 mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites font-poppins'
                               placeholder={`Nombre del modelo:`}
                               placeholderTextColor={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
                               style={{ fontSize: 24 }}
@@ -176,7 +189,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                         )  : (
                           <TextInput
                           onChangeText={(text) => { setModelo(text);}}
-                          className='w-11/12 h-15 bg-gray-200 rounded-lg p-3 ml-5 mr-5 mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites'
+                          className='w-80 h-15 rounded-lg mb-16 text-black border-b-2 border-gray dark:text-whites dark:border-soft-whites font-poppins'
                           placeholder={`Ruta de Hugging Face`}
                           placeholderTextColor={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
                           style={{ fontSize: 24 }}
@@ -200,7 +213,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                                 }
                             }}
                         >
-                            <Text className={`pt-3 text-center text-xl text-whites self-center w-32 h-12 rounded-3xl ${
+                            <Text className={`pt-3 text-center text-xl text-whites self-center w-32 h-12 rounded-3xl font-poppins ${
                                 loading || !nombre || !descripcion || !modelo || !selectedComponent || !background
                                     ? 'bg-gray'
                                     : 'bg-purple'
@@ -221,7 +234,7 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                                         loop
                                       />
                                     </View>
-                                    <Text className='text-center w-full text-xl text-black dark:text-whites'>Anterior</Text>
+                                    <Text className='text-center w-full text-xl text-black dark:text-whites font-poppins'>Anterior</Text>
                                 </TouchableOpacity>
                             )}
                             {currentStep < steps.length - 1 && (
@@ -235,14 +248,19 @@ const CrearModeloScreen = ({ session }: { session: Session }) => {
                                         loop
                                       />
                                     </View>
-                                    <Text className='text-center w-full text-xl text-black dark:text-whites'>Siguiente</Text>
+                                    <Text className='text-center w-full text-xl text-black dark:text-whites font-poppins'>Siguiente</Text>
                                 </TouchableOpacity>
                             )}
                         </View>
                     </View>
                 )}
             </View>
+
+            <View className='h-40 w-40 z-10 rounded-full right-72 -bottom-28 border-2 border-purple bg-purple2 opacity-40 absolute'></View>
+            <View className='h-40 w-40 z-10 rounded-full right-52 -bottom-36 border-2 border-purple absolute'></View>
+
         </ScrollView>
+        </View>
     );
 };
 

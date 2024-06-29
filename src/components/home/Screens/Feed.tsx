@@ -40,6 +40,8 @@ type Modelo = {
 
 const Feed = ({ session }: { session: Session }) => {
     const navigation = useNavigation(); 
+    const {colorScheme, toggleColorScheme} = useColorScheme()
+
 
     const [modelos, setModelos] = useState<Modelo[]>([]);
     const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
@@ -203,9 +205,9 @@ const Feed = ({ session }: { session: Session }) => {
     }
   }
 
-
   function TestModelo(item: Publicacion) {
     const categorias = ["ImageToText", "TextToImage", "ImageToImage"];
+
     if (categorias.includes(item.categoria)) {
       console.log(item.categoria);
 
@@ -222,48 +224,48 @@ const Feed = ({ session }: { session: Session }) => {
                 {avatar[item.id] && <Image source={{ uri: avatar[item.id] }} className='w-10 h-10 rounded-3xl self-start' />}
 
                 <View className='flex-col self-start w-36'>
-                  <Text className='text-black dark:text-white font-bold text-lg'>{item.profiles.username}</Text>
-                  <Text className='text-black dark:text-white font-thin text-sm'>
+                  <Text className='text-black dark:text-whites font-poppins-bold text-lg'>{item.profiles.username}</Text>
+                  <Text className='text-black dark:text-whites font-poppins-thin text-sm'>
                   {format(parseISO(item.fecha), "EEE, dd MMM, yyyy", { locale: es })}
                   </Text>
-                  <Text className='text-black dark:text-white font-bold'>{item.categoria}</Text>
+                  <Text className='text-black dark:text-whites font-poppins-bold'>{item.categoria}</Text>
                 </View>
 
                 <Pressable onPress={() => TestModelo(item)}>
                   <View className='justify-start align-top ml-3 self-end'>
-                    <Ionicons name="play-forward-outline" size={35} color={colorScheme == "dark" ? "white" : "black"}/>
+                    <Ionicons name="play-forward-outline" size={35} color={colorScheme === "dark" ? "white" : "black"}/>
                   </View> 
                 </Pressable>
               </View>
 
 
             </View>
-            <Text className='text-black dark:text-white mb-2 mt-2 text-lg mr-2 ml-2 font-bold'>Entrada: </Text>
+            <Text className='text-black dark:text-whites mb-2 mt-2 text-lg mr-2 ml-2 font-poppins-bold'>Entrada: </Text>
             {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imagePost} />}
             <View className='w-full'>
-              <View className='bg-soft-white dark:bg-black w-56 h-15 flex flex-row rounded-3xl pr-6 pl-6 pt-2 pb-2 align-middle justify-between -mt-6 self-center'>
+              <View className='bg-soft-white dark:bg-black w-56 h-15 flex flex-row rounded-3xl pr-4 pl-4 pt-2 pb-2 align-middle justify-between -mt-6 self-center'>
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="heart-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
-                  <Text className='dark:text-whites text-center'>10.2k likes</Text>
+                  <Ionicons name="heart-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites text-center font-poppins'>10.2k likes</Text>
                 </View>
 
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="play-forward-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
-                  <Text className='dark:text-whites'>20.1k likes</Text>
+                  <Ionicons name="play-forward-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites font-poppins'>20.1k runs</Text>
                 </View>
 
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="navigate-circle-outline" size={25} color={colorScheme == "dark" ? "#fff" : "black"} className='self-center w-full'/>
-                  <Text className='dark:text-whites'>20.1k shares</Text>
+                  <Ionicons name="share-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Text className='dark:text-whites font-poppins'>20.1k shares</Text>
                 </View>
               </View>
             </View>
 
             <View className='flex-col align-middle w-full pr-5 pl-5 justify-center mt-6'>
-              <Text className='dark:text-whites text-lg font-bold self-start'>Modelo: </Text>
-              <Text className='text-black dark:text-white font-thin text-lg w-full'>{item.modelo}</Text>
-              <Text className='dark:text-whites text-lg font-bold self-start'>Resultado: </Text>
-              <Text className='text-black dark:text-white w-full font-thin'>{item.resultado}</Text>
+              <Text className='dark:text-whites text-lg font-poppins-bold self-start'>Modelo: </Text>
+              <Text className='text-black dark:text-whites font-poppins w-full'>{item.modelo}</Text>
+              <Text className='dark:text-whites text-lg font-poppins-bold self-start'>Resultado: </Text>
+              <Text className='text-black dark:text-whites w-full font-poppins'>{item.resultado}</Text>
             </View>
           </View>
         )}
@@ -290,9 +292,6 @@ const Feed = ({ session }: { session: Session }) => {
       getPublicaciones();
     };
 
-
-    const {colorScheme, toggleColorScheme} = useColorScheme()
-
     return (
       <ScrollView className="dark:bg-black" refreshControl={ 
       <RefreshControl
@@ -302,7 +301,7 @@ const Feed = ({ session }: { session: Session }) => {
         colors={['#9Bd35A', '#689F38']}
         progressBackgroundColor="#fff"
         />}>
-<View className='bg-white pl-5 pt-5 dark:bg-black dark:text-white pr-5'>
+<View className='bg-white pl-5 pt-5 dark:bg-black pr-5'>
   {/* Contenedor principal para alinear elementos horizontalmente */}
   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
     {/* Botón para subir modelo */}
@@ -314,7 +313,7 @@ const Feed = ({ session }: { session: Session }) => {
         <View style={colorScheme === "dark" ? styles.addBtnInside : styles.addBtnInsideDark } className='flex items-center justify-center'>
           <Ionicons name="add-sharp" size={25} color={colorScheme === "dark" ? "white" : "black"} />
         </View>
-        <Text className='text-black dark:text-white text-center'>Sube tu modelo</Text>
+        <Text className='text-black dark:text-whites text-center font-poppins text-sm'>Sube tu modelo</Text>
       </Pressable>
     </View>
 

@@ -15,7 +15,7 @@ export default function TopBar() {
                 style={{ width: 50, height: 50 }}
                 className='mr-2'
             />
-            <Text className="dark:text-white font-bold ml-2 text-2xl">useThread</Text>
+            <Text className="dark:text-whites font-bold ml-2 text-2xl">useThread</Text>
             <View style={{ flex: 1 }} />
             <Pressable 
                 // @ts-ignore

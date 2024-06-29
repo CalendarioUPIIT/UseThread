@@ -9,7 +9,7 @@ import Avatar from './Avatar'
 import { useColorScheme } from 'nativewind'
 import { StatusBar } from 'expo-status-bar'
 
-export default function Account({ session }: { session: Session }) {
+export default function EditProfileScreen({ session }: { session: Session }) {
 
     const [loading, setLoading] = useState(true)
     const [username, setUsername] = useState('')
@@ -90,59 +90,80 @@ export default function Account({ session }: { session: Session }) {
         <SafeAreaView className='flex-1 dark:bg-black dark:text-whites'>
             <StatusBar style={colorScheme == "dark" ? "light" : "dark"} />
 
-            <View style={styles.verticallySpaced}>
-                <Pressable
-                    disabled={loading}
-                    style={[styles.button, styles.btnSave]}
-                    onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} >
-                    <Text style={styles.text}> {loading ? 'Guardando ...' : 'Guardar'} </Text>
-                </Pressable>
-            </View>
-
             <View style={styles.container} className='flex items-center'>
-                <View className='flex items-center justify-center w-screen m-0 p-0'>
+                <View className='flex items-center justify-center w-screen m-0 p-0 z-10'>
                     <Avatar
-                        size={80}
+                        size={100}
                         url={avatarUrl}
                         onUpload={(url: string) => {
                             setAvatarUrl(url)
                             updateProfile({ username, website, avatar_url: url })
                         }}
                     />
-                    <Text className='m-2 dark:text-purple2 text-purple font-bold text-xl'>Editar Foto</Text>
                 </View>
             </View>
 
-            <View>
-                <View style={[styles.verticallySpaced, styles.mr20]}>
+            <View className='items-center dark:bg-gray rounded-t-xl mr-6 ml-6 -top-12 pt-10'>
+                <View style={[styles.verticallySpaced, styles.mr20]} className='mb-7 rounded-2xl pr-3 pl-3 align-middle justify-start'>
                     <Input
                         selectionColor={'black'}
                         label="Username"
                         value={username || ''}
                         placeholder={'Name'}
                         onChangeText={(text: string) => setUsername(text)} 
-                        />
+                        placeholderTextColor="white"
+                        style={{
+                            fontFamily: 'Poppins',
+                            color: 'white'
+                          }}
+                          inputStyle={{
+                            fontFamily: 'Poppins'
+                          }}/>
                 </View>
 
-                <View style={[styles.verticallySpaced, styles.mr20]}>
-                    <Input label="Email" value={session?.user?.email} disabled />
+                <View style={[styles.verticallySpaced, styles.mr20]} className='mb-7  rounded-2xl pr-3 pl-3 align-middle justify-start'>
+                    <Input label="Email" value={session?.user?.email} disabled placeholderTextColor="white"
+                        style={{
+                            fontFamily: 'Poppins',
+                            color: 'white'
+                          }}
+                          inputStyle={{
+                            fontFamily: 'Poppins'
+                          }}/>
                 </View>
 
-                <View style={[styles.verticallySpaced, styles.mr20]}>
+                <View style={[styles.verticallySpaced, styles.mr20]} className='mb-7  rounded-2xl pr-3 pl-3 align-middle justify-start'>
                     <Input
                         selectionColor={'black'}
                         label="Descripcion"
                         value={website || ''}
                         placeholder='Descripcion'
-                        onChangeText={(text: string) => setWebsite(text)} />
+                        onChangeText={(text: string) => setWebsite(text)} 
+                        placeholderTextColor="white"
+                        style={{
+                            fontFamily: 'Poppins',
+                            color: 'white'
+                          }}
+                          inputStyle={{
+                            fontFamily: 'Poppins'
+                          }}/>
                 </View>
+            </View>
+
+            <View style={styles.verticallySpaced} className='items-center'>
+                <Pressable
+                    disabled={loading}
+                    style={[styles.button, styles.btnSave]}
+                    onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} >
+                    <Text style={styles.text} className='font-poppins'> {loading ? 'Guardando ...' : 'Guardar'} </Text>
+                </Pressable>
             </View>
 
             <View style={[styles.verticallySpaced]} className='items-center'>
                 <Pressable
                     style={[styles.button, styles.btnOut]}
                     onPress={() => supabase.auth.signOut()}>
-                    <Text style={styles.text}> Sign out </Text>
+                    <Text style={styles.text} className='font-poppins'> Cerrar Sesion </Text>
                 </Pressable>
             </View>
 
@@ -167,16 +188,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 10,
         paddingHorizontal: 10,
-        borderRadius: 50,
+        borderRadius: 10,
         elevation: 3,
     },
     btnSave: {
         backgroundColor: '#4A158E',
-        width: 120,
-        alignSelf: 'flex-end',
-        marginRight: 20,
-        marginTop: 10,
-        marginBottom: 20,
+        width: 310,
+        marginHorizontal: 30,
+        marginBottom: 10,
     },
     btnOut: {
         backgroundColor: '#282828',

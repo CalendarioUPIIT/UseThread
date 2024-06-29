@@ -99,7 +99,10 @@ const Modelos = ({ session }: { session: Session })  => {
     const categorias = ["ImageToText", "TextToImage", "ImageToImage"];
     if (categorias.includes(item.categoria)) {
     // @ts-ignore
-    navigation.navigate(item.categoria, { modelo: item.modelo });
+      navigation.navigate(item.categoria, { 
+        modelo: item.modelo, 
+        foto: item.foto
+      });
     }
   }
 
@@ -114,7 +117,7 @@ const Modelos = ({ session }: { session: Session })  => {
           <View className='flex flex-row justify-between items-center w-full'>
             <Text className='text-black dark:text-whites text-2xl font-bold'>{item.nombre}</Text>
             <Pressable className='flex flex-row p-2' onPress={() => TestModelo(item)}>
-              <Ionicons name="play-forward-outline" size={25} color={colorScheme == "dark" ? "white" : "black"}/>
+              <Ionicons name="play-forward-outline" size={25} color={colorScheme === "dark" ? "white" : "black"}/>
             </Pressable>
           </View>
 

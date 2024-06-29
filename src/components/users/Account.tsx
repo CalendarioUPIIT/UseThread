@@ -112,18 +112,18 @@ export default function Account({ session }: { session: Session }) {
             </View>
 
             <View style={styles.userInfo}>
-              <Text style={styles.text} className='text-black dark:text-white font-bold mb-3'>{"Username"}</Text>
-              <Text style={styles.text} className='text-black dark:text-white mb-3'>{session?.user?.email}</Text>
-              <Text style={styles.text} className='text-black dark:text-white mb-3'>{"Descripción"}</Text>
+              <Text style={styles.text} className='text-black dark:text-whites font-poppins-bold mb-3'>{"Username"}</Text>
+              <Text style={styles.text} className='text-black dark:text-whites mb-3 font-poppins'>{session?.user?.email}</Text>
+              <Text style={styles.text} className='text-black dark:text-whites mb-3 font-poppins'>{"Descripción"}</Text>
             </View>
         </View>
         <View className='flex-row'>
           <Pressable
-            onPress={() => navigation.navigate('Editar perfil')} className='p-3'>
-            <Text className='text-black dark:text-white bg-soft-white dark:bg-gray p-1 w-36 rounded-md text-center text-lg'>Editar Perfil</Text>
+            onPress={() => navigation.navigate("Editar perfil")} className='p-3'>
+            <Text className='p-2 w-36 font-poppins rounded-2xl text-center text-lg bg-light-gray text-black dark:bg-gray dark:text-soft-white'>Editar Perfil</Text>
           </Pressable>
           <View className='flex-row justify-center items-center space-x-2 ml-4' >
-              <Text className='text-black dark:text-whites text-lg'> {colorScheme === "dark" ? 'Light Mode' : 'Dark Mode'} </Text>
+              <Text className='text-black dark:text-whites text-lg font-poppins'> {colorScheme === "dark" ? 'Light Mode' : 'Dark Mode'} </Text>
               <Switch
                 value={colorScheme === "dark"}
                 onChange={toggleColorScheme}

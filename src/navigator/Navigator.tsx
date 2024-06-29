@@ -32,6 +32,11 @@ function EditProfileWrapper({ route }: { route: any }) {
   return <EditProfileScreen key={session.user.id} session={session} />;
 }
 
+function OtraScreenWrapper({ route }: { route: any }) {
+  const { session } = route.params;
+  return <OtraScreen/>;
+}
+
 function StackNavigator({ route }: { route: any }) {
   const { session } = route.params;
   const { colorScheme, toggleColorScheme } = useColorScheme()
@@ -44,6 +49,7 @@ function StackNavigator({ route }: { route: any }) {
     }}>
       <Stack.Screen name="Principal" initialParams={{ session: session }} component={HomeWrapper} />
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
+      <Stack.Screen name="Buscar modelos" initialParams={{ session: session }} component={OtraScreenWrapper} />
       <Stack.Screen name="Editar perfil" initialParams={{ session: session }} component={EditProfileWrapper} />
     </Stack.Navigator>
   );
@@ -66,6 +72,10 @@ export const Navigator = ({ session }: { session: any }) => {
         backgroundColor: colorScheme === 'dark' ? 'black' : 'white',
         height: 65,
     },
+    tabBarLabelStyle: {
+      color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
+      fontFamily: 'Poppins',
+    },
     }}>
       
       <BottomTab.Screen 
@@ -84,7 +94,7 @@ export const Navigator = ({ session }: { session: any }) => {
           initialParams={{ session: session }}
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "documents" : "search-outline"} color={color} size={26} />
+              <Ionicons name={focused ? "search-sharp" : "search-outline"} color={color} size={26} />
             ),
           }} />
 
@@ -94,7 +104,7 @@ export const Navigator = ({ session }: { session: any }) => {
           initialParams={{ session: session }}
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "documents" : "add-circle-outline"} color={color} size={26} />
+              <Ionicons name={focused ? "add-circle" : "add-circle-outline"} color={color} size={26} />
             ),
           }} />
 

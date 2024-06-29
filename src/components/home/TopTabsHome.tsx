@@ -110,6 +110,7 @@ const TopTabsHome = ({ session }: { session: Session }) => {
     },
     tabBarLabelStyle: {
       color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
+      fontFamily: 'Poppins',
     },
     tabBarIndicatorStyle: {
       backgroundColor: '#6d28d9',
@@ -134,6 +135,7 @@ const TabsProfile = ({ session }: { session: Session }) => {
     },
     tabBarLabelStyle: {
       color: colorScheme === "dark" ? '#FFFFFF' : "#030712",
+      fontFamily: 'Poppins',
     },
     tabBarIndicatorStyle: {
       backgroundColor: '#6d28d9',
@@ -141,7 +143,7 @@ const TabsProfile = ({ session }: { session: Session }) => {
     tabBarActiveTintColor: '#6d28d9',
     tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)'
     }}>
-        <Tab.Screen name="Publicaciones" initialParams={{ session: session }} component={ StackNavigatorUser }/>
+        <Tab.Screen name="Mis Publicaciones" initialParams={{ session: session }} component={ StackNavigatorUser }/>
         <Tab.Screen name="Mis Modelos" initialParams={{ session: session }} component={ StackNavigatorUser } />
     </Tab.Navigator>
   )

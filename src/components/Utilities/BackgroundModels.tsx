@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 import LottieView from 'lottie-react-native';
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 type ImageUri = string | null;
 type ImageMime = string | null;
@@ -98,28 +99,42 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Toma tu imagen </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Cerrar</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => AbrirCamara(setModalVisible, setImageUri)}>
-              <Text style={styles.textStyle}>Tomar foto</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => AbrirArchivos(setModalVisible, setImageUri)}>
-              <Text style={styles.textStyle}>Cargar de archivos</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => BorrarFoto(setModalVisible, setImageUri)}>
-              <Text style={styles.textStyle}>Borrar foto</Text>
-            </Pressable>
+          <View style={styles.modalView} className='dark:bg-gray'>
+            <Text className='font-poppins text-xl dark:text-whites' style={styles.modalText}>Toma tu imagen </Text>
+
+            <View className='flex flex-row flex-wrap w-full items-center justify-between'>
+              <Pressable
+                onPress={() => AbrirCamara(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2 mb-7'>
+                <View style={[styles.button, styles.buttonClose]}>
+                  <Ionicons name="camera-outline" color={"black"} size={26} />
+                </View>
+                <Text className="font-poppins-bold dark:text-whites" style={styles.textStyle}>Tomar foto</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => AbrirArchivos(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2'>
+                <View style={[styles.button, styles.buttonClose]}>
+                  <Ionicons name="arrow-up-outline" color={"black"} size={26} />
+                </View>
+                <Text className='dark:text-whites' style={styles.textStyle}>Cargar de archivos</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => BorrarFoto(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2'>
+                <View style={[styles.button, styles.buttonClose]}>
+                  <Ionicons name="close-outline" color={"black"} size={26} />
+                </View>
+                <Text className='dark:text-whites' style={styles.textStyle}>Borrar foto</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => setModalVisible(!modalVisible)} className='items-center w-1/2 h-1/2'>
+                <View style={[styles.button, styles.buttonClose]}>
+                  <Ionicons name="close-circle-outline" color={"black"} size={26} />
+                </View>
+                <Text className='dark:text-whites' style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
@@ -154,7 +169,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -168,20 +182,20 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
+    borderRadius: 100,
+    padding: 20,
     elevation: 2,
+    marginBottom: 10,
   },
   buttonOpen: {
     paddingTop: 10,
-    backgroundColor: '#F194FF',
+    backgroundColor: '#c7d2fe',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#c7d2fe',
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins',
     textAlign: 'center',
   },
   modalText: {
