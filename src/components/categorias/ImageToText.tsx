@@ -160,9 +160,9 @@ const ImageToText =({ session, modelo }: { session: Session; modelo: string }) =
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
           <View className='mb-0'>
-            <Text className='ml-5 text-lg mt-4 dark:text-whites font-poppins text-start mb-6'>Estas probando el modelo:   
+            <Text className='ml-5 text-lg mt-4 text-whites font-poppins text-start mb-6'>Estas probando el modelo:   
             </Text>
-            <Text className='font-poppins-bold ml-5 dark:text-whites text-3xl'>{ modelo }</Text>
+            <Text className='font-poppins-bold ml-5 text-whites text-3xl'>{ modelo }</Text>
             
           </View>
 

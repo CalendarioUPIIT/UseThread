@@ -99,7 +99,7 @@ const TakePhoto: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime }) => {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView} className='dark:bg-gray'>
+          <View style={styles.modalView} className='bg-soft-white dark:bg-gray'>
             <View className='flex-row'>
               <Text className='font-poppins text-xl dark:text-whites' style={styles.modalText}>Toma tu imagen </Text>
               <Pressable
