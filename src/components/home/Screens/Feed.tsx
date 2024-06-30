@@ -233,29 +233,28 @@ const Feed = ({ session }: { session: Session }) => {
 
                 <Pressable onPress={() => TestModelo(item)}>
                   <View className='justify-start align-top ml-3 self-end'>
-                    <Ionicons name="play-forward-outline" size={35} color={colorScheme === "dark" ? "white" : "black"}/>
+                    <Ionicons name="play-forward-outline" size={30} color={colorScheme === "dark" ? "white" : "gray"}/>
                   </View> 
                 </Pressable>
               </View>
-
-
             </View>
+
             <Text className='text-black dark:text-whites mb-2 mt-2 text-lg mr-2 ml-2 font-poppins-bold'>Entrada: </Text>
             {imagenes[item.id] && <Image source={{ uri: imagenes[item.id] }} style={styles.imagePost} />}
             <View className='w-full'>
               <View className='bg-soft-white dark:bg-black w-56 h-15 flex flex-row rounded-3xl pr-4 pl-4 pt-2 pb-2 align-middle justify-between -mt-6 self-center'>
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="heart-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Ionicons name="heart-outline" size={25} color={colorScheme === "dark" ? "white" : "black"} className='self-center w-full'/>
                   <Text className='dark:text-whites text-center font-poppins'>10.2k likes</Text>
                 </View>
 
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="play-forward-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Ionicons name="play-forward-outline" size={25} color={colorScheme === "dark" ? "white" : "black"} className='self-center w-full'/>
                   <Text className='dark:text-whites font-poppins'>20.1k runs</Text>
                 </View>
 
                 <View className='flex flex-col mr-3 align-middle justify-center items-center'>
-                  <Ionicons name="share-outline" size={25} color={colorScheme === "dark" ? "#fff" : "black"} className='self-center w-full'/>
+                  <Ionicons name="share-outline" size={25} color={colorScheme === "dark" ? "white" : "black"} className='self-center w-full'/>
                   <Text className='dark:text-whites font-poppins'>20.1k shares</Text>
                 </View>
               </View>

@@ -20,5 +20,18 @@ export default function App() {
     }
   }, [fontsLoaded]);
 
-  return <UseThread />;
+  if (!fontsLoaded) {
+    // Muestra una pantalla de cargando o un indicador hasta que las fuentes estén listas
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Cargando...</Text>
+      </View>
+    );
+  }
+  return (
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <UseThread />
+    </View>
+  );
+
 }

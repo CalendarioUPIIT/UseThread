@@ -3,6 +3,7 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity
 import * as ImagePicker from 'expo-image-picker'
 import LottieView from 'lottie-react-native';
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { useColorScheme } from 'nativewind'
 
 type ImageUri = string | null;
 type ImageMime = string | null;
@@ -17,6 +18,7 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState('https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon.png');
   const [animationSource, setAnimationSource] = useState<any>(require('../../../assets/animations/Model.json'));
+  const {colorScheme, toggleColorScheme} = useColorScheme()
 
   async function AbrirCamara(
     setModalVisible: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; },
@@ -100,11 +102,19 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView} className='dark:bg-gray'>
-            <Text className='font-poppins text-xl dark:text-whites' style={styles.modalText}>Toma tu imagen </Text>
-
-            <View className='flex flex-row flex-wrap w-full items-center justify-between'>
+            <View className='flex-row'>
+              <Text className='font-poppins text-xl dark:text-whites' style={styles.modalText}>Toma tu imagen </Text>
               <Pressable
-                onPress={() => AbrirCamara(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2 mb-7'>
+                  onPress={() => setModalVisible(!modalVisible)} className='items-center w-1/2 absolute left-32 h-full'>
+                  <View>
+                    <Ionicons name="close-circle-outline" color={colorScheme === "dark" ? "white": "black"} size={30} />
+                  </View>
+              </Pressable>
+            </View>
+
+            <View className='flex flex-row flex-wrap w-full items-center justify-between align-middle'>
+              <Pressable
+                onPress={() => AbrirCamara(setModalVisible, setImageUri)} className='items-center w-1/3 h-28 mb-7'>
                 <View style={[styles.button, styles.buttonClose]}>
                   <Ionicons name="camera-outline" color={"black"} size={26} />
                 </View>
@@ -112,7 +122,7 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
               </Pressable>
 
               <Pressable
-                onPress={() => AbrirArchivos(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2'>
+                onPress={() => AbrirArchivos(setModalVisible, setImageUri)} className='items-center w-1/3 h-28 mb-7'>
                 <View style={[styles.button, styles.buttonClose]}>
                   <Ionicons name="arrow-up-outline" color={"black"} size={26} />
                 </View>
@@ -120,19 +130,11 @@ const BackgroundModels: React.FC<TakePhotoProps> = ({ onImageTaken, onImageMime 
               </Pressable>
 
               <Pressable
-                onPress={() => BorrarFoto(setModalVisible, setImageUri)} className='items-center w-1/2 h-1/2'>
+                onPress={() => BorrarFoto(setModalVisible, setImageUri)} className='items-center w-1/3 h-28 mb-7'>
                 <View style={[styles.button, styles.buttonClose]}>
                   <Ionicons name="close-outline" color={"black"} size={26} />
                 </View>
                 <Text className='dark:text-whites' style={styles.textStyle}>Borrar foto</Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setModalVisible(!modalVisible)} className='items-center w-1/2 h-1/2'>
-                <View style={[styles.button, styles.buttonClose]}>
-                  <Ionicons name="close-circle-outline" color={"black"} size={26} />
-                </View>
-                <Text className='dark:text-whites' style={styles.textStyle}>Cerrar</Text>
               </Pressable>
             </View>
           </View>

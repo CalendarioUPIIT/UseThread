@@ -8,6 +8,7 @@ import { useColorScheme } from 'nativewind';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CrearModeloScreen from '../Formulario/CrearModeloForm2';
 import EditProfileScreen from '../components/users/EditProfile';
+import TopBar from '../components/home/Screens/TopBar';
 
 const BottomTab = createBottomTabNavigator();   
 const Stack = createNativeStackNavigator();   
@@ -43,11 +44,20 @@ function StackNavigator({ route }: { route: any }) {
 
   return (
     <Stack.Navigator 
-    screenOptions={{
-      headerTintColor: colorScheme == "dark" ? "white" : "black",
-      headerStyle: { backgroundColor: colorScheme == "dark" ? "black" : "white" },
-    }}>
-      <Stack.Screen name="Principal" initialParams={{ session: session }} component={HomeWrapper} />
+      screenOptions={{
+        headerTintColor: colorScheme == "dark" ? "white" : "black",
+        headerStyle: { 
+          backgroundColor: colorScheme == "dark" ? "black" : "white"
+        }, 
+      }}>
+      <Stack.Screen 
+        name="Principal" 
+        initialParams={{ session: session }} 
+        component={HomeWrapper}
+        options={{
+          headerTitle: () => <TopBar />,
+        }}
+      />
       <Stack.Screen name="Crear modelo" initialParams={{ session: session }} component={CrearModeloWrapper} />
       <Stack.Screen name="Buscar modelos" initialParams={{ session: session }} component={OtraScreenWrapper} />
       <Stack.Screen name="Editar perfil" initialParams={{ session: session }} component={EditProfileWrapper} />

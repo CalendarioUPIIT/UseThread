@@ -35,7 +35,7 @@ async function fetchImageAndInfer(imageUri: ImageUri, modelo: string) {
   }
 }
 
-const ImageToText =({ session, modelo, foto }: { session: Session; modelo: string; foto: string }) => {
+const ImageToText =({ session, modelo }: { session: Session; modelo: string }) => {
     const navigation = useNavigation();
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
     const scrollViewRef = React.useRef<ScrollView>(null);
@@ -127,12 +127,6 @@ const ImageToText =({ session, modelo, foto }: { session: Session; modelo: strin
         navigation.goBack()
       }
     }
-
-    useEffect(() => {
-      if (foto) {
-        downloadImage(foto);
-      }
-    }, [foto]);
   
     async function downloadImage(path: string) {
       try {

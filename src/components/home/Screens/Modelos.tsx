@@ -32,6 +32,10 @@ const Modelos = ({ session }: { session: Session })  => {
   const [imagenes, setImagenes] = useState<{ [key: string]: string }>({});
   const [imagenesCargadas, setImagenesCargadas] = useState(false);
 
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string | null>(null);
+
+  const categorias = ["Todas", "ImageToText", "TextToImage", "ImageToImage"];
+
 
   useEffect(() => {
     if (session) getModelos();
@@ -100,8 +104,7 @@ const Modelos = ({ session }: { session: Session })  => {
     if (categorias.includes(item.categoria)) {
     // @ts-ignore
       navigation.navigate(item.categoria, { 
-        modelo: item.modelo, 
-        foto: item.foto
+        modelo: item.modelo
       });
     }
   }
@@ -134,6 +137,39 @@ const Modelos = ({ session }: { session: Session })  => {
   );
   const { top } = useSafeAreaInsets()
 
+  const renderCategorias = () => {
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10,  marginTop:20}}>
+        {categorias.map((categoria) => (
+          <Pressable 
+            key={categoria} 
+            onPress={() => setCategoriaSeleccionada(categoria === "Todas" ? null : categoria)}
+            style={{
+              borderRadius: 30,
+              backgroundColor: categoriaSeleccionada === categoria ? '#2B045E' : "transparent",
+              padding: 10,
+              marginHorizontal: 5,
+            }}
+          >
+            <Text className='font-poppins text-black dark:text-whites' 
+            style={{
+              color: categoriaSeleccionada === categoria 
+                ? 'white' 
+                : colorScheme === 'dark' 
+                ? 'white' 
+                : 'black',
+              fontFamily: 'Poppins',  // Usa la fuente Poppins
+            }}>{categoria}</Text>
+          </Pressable>
+        ))}
+      </View>
+    );
+  };
+
+  const modelosFiltrados = categoriaSeleccionada
+  ? modelos.filter(modelo => modelo.categoria === categoriaSeleccionada)
+  : modelos;
+
   return (
     <ScrollView className="dark:bg-black text-black" refreshControl={ 
       <RefreshControl
@@ -147,13 +183,14 @@ const Modelos = ({ session }: { session: Session })  => {
         <Text>Cargando...</Text>
       ) : (
         <> 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <FlashList
-            data={modelos}
+        {renderCategorias()}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop:10 }}>
+          <FlashList
+            data={modelosFiltrados}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             estimatedItemSize={200}
-            />
+          />
         </ScrollView>
         </>
       )}

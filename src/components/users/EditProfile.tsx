@@ -103,7 +103,7 @@ export default function EditProfileScreen({ session }: { session: Session }) {
                 </View>
             </View>
 
-            <View className='items-center dark:bg-gray rounded-t-xl mr-6 ml-6 -top-12 pt-10'>
+            <View className='items-center bg-whites dark:bg-gray rounded-t-xl mr-6 ml-6 -top-12 pt-10'>
                 <View style={[styles.verticallySpaced, styles.mr20]} className='mb-7 rounded-2xl pr-3 pl-3 align-middle justify-start'>
                     <Input
                         selectionColor={'black'}
@@ -111,10 +111,10 @@ export default function EditProfileScreen({ session }: { session: Session }) {
                         value={username || ''}
                         placeholder={'Name'}
                         onChangeText={(text: string) => setUsername(text)} 
-                        placeholderTextColor="white"
+                        placeholderTextColor={colorScheme === "dark" ? "white" : "black"}
                         style={{
                             fontFamily: 'Poppins',
-                            color: 'white'
+                            color: colorScheme === "dark" ? "white" : "black"
                           }}
                           inputStyle={{
                             fontFamily: 'Poppins'
@@ -122,10 +122,10 @@ export default function EditProfileScreen({ session }: { session: Session }) {
                 </View>
 
                 <View style={[styles.verticallySpaced, styles.mr20]} className='mb-7  rounded-2xl pr-3 pl-3 align-middle justify-start'>
-                    <Input label="Email" value={session?.user?.email} disabled placeholderTextColor="white"
+                    <Input label="Email" value={session?.user?.email} disabled placeholderTextColor={colorScheme === "dark" ? "white" : "black"}
                         style={{
                             fontFamily: 'Poppins',
-                            color: 'white'
+                            color: colorScheme === "dark" ? "white" : "black"
                           }}
                           inputStyle={{
                             fontFamily: 'Poppins'
@@ -139,10 +139,10 @@ export default function EditProfileScreen({ session }: { session: Session }) {
                         value={website || ''}
                         placeholder='Descripcion'
                         onChangeText={(text: string) => setWebsite(text)} 
-                        placeholderTextColor="white"
+                        placeholderTextColor={colorScheme === "dark" ? "white" : "black"}
                         style={{
                             fontFamily: 'Poppins',
-                            color: 'white'
+                            color: colorScheme === "dark" ? "white" : "black"
                           }}
                           inputStyle={{
                             fontFamily: 'Poppins'
@@ -150,20 +150,22 @@ export default function EditProfileScreen({ session }: { session: Session }) {
                 </View>
             </View>
 
-            <View style={styles.verticallySpaced} className='items-center'>
+            <View style={styles.verticallySpaced} className='items-center p-6'>
                 <Pressable
                     disabled={loading}
                     style={[styles.button, styles.btnSave]}
-                    onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} >
-                    <Text style={styles.text} className='font-poppins'> {loading ? 'Guardando ...' : 'Guardar'} </Text>
+                    onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })} 
+                    className='w-full bg-light-gray dark:bg-gray'>
+                    <Text style={styles.text} className='font-poppins text-black dark:text-whites'> {loading ? 'Guardando ...' : 'Guardar'} </Text>
                 </Pressable>
             </View>
 
-            <View style={[styles.verticallySpaced]} className='items-center'>
+            <View style={[styles.verticallySpaced]} className='items-center p-6'>
                 <Pressable
                     style={[styles.button, styles.btnOut]}
-                    onPress={() => supabase.auth.signOut()}>
-                    <Text style={styles.text} className='font-poppins'> Cerrar Sesion </Text>
+                    onPress={() => supabase.auth.signOut()}
+                    className='w-full bg-purple'>
+                    <Text style={styles.text} className='font-poppins text-whites'> Cerrar Sesion </Text>
                 </Pressable>
             </View>
 
@@ -192,23 +194,16 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     btnSave: {
-        backgroundColor: '#4A158E',
-        width: 310,
         marginHorizontal: 30,
         marginBottom: 10,
     },
     btnOut: {
-        backgroundColor: '#282828',
-        width: 310,
         marginHorizontal: 30,
         padding: 10,
     },
     text: {
-        fontSize: 16,
         lineHeight: 21,
-        fontWeight: 'bold',
         letterSpacing: 0.25,
-        color: 'white',
     },
     container: {
         flexDirection: 'row',

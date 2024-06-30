@@ -9,7 +9,7 @@ export default function TopBar() {
     const { colorScheme, toggleColorScheme } = useColorScheme()
 
     return (
-        <View className="flex-row items-center px-4 py-3 pt-10 pl-8 pr-8">
+        <View className="flex-row items-center px-4 py-3 pl-3 pr-8">
             <Image
                 source={colorScheme == 'dark' ? require('../../../../assets/logo_principal_dark.png') : require('../../../../assets/logo_principal_light.png')}
                 style={{ width: 50, height: 50 }}

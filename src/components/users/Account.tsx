@@ -96,7 +96,7 @@ export default function Account({ session }: { session: Session }) {
     <SafeAreaView className='flex-1 dark:bg-black dark:text-white'>
       <StatusBar style={colorScheme == "dark" ? "light" : "dark" } />
 
-      <TopBar />
+      <View className='top-6 left-5'><TopBar /></View>
 
       <View className='p-8'>
         <View style={styles.container}>
